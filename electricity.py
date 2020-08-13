@@ -11,3 +11,6 @@ def hello():
         return render_template('hello.html', pseudo=request.form['pseudo'])
     else:
         return render_template('hello.html')
+
+if __name__ == '__main__':
+    app.run(debug=True,host='0.0.0.0')
