@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    <title>French electricity production</title>
+</head>
+
+<body>
+    <h1>Bienvenue sur Electricity Forecast</h1>
+
+    <div id="main">
+        <h2>Ici on mettra les visu</h2>
+        <p>
+            {% if pseudo %}
+                <h1>Hello {{ pseudo }}!</h1>
+            {% else %}
+                <h1>ERROR</h1>
+            {% endif %}
+        </p>
+    </div>
+    <div id="back">
+        <p><a href="/">Pour retourner à l'accueil</a></p>
+    </div>
+
+</body>
+
+</html>

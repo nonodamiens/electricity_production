@@ -8,6 +8,6 @@ def index():
 @app.route('/hello', methods=["POST"])
 def hello():
     if request.method == "POST":
-        return 'Bonjour vous avez mis comme pseudo {} et mdp {}'.format(request.form['pseudo'], request.form['pass'])
+        return render_template('hello.html', pseudo=request.form['pseudo'])
     else:
-        return 'This is the hello page'
+        return render_template('hello.html')
