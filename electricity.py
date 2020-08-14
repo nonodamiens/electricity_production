@@ -12,5 +12,7 @@ def hello():
     else:
         return render_template('hello.html')
 
+app.config['DEBUG'] = True
+
 if __name__ == '__main__':
     app.run(debug=True,host='0.0.0.0')
