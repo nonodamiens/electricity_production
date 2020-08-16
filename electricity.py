@@ -43,5 +43,19 @@ def hello():
     else:
         return render_template('hello.html')
 
+@app.route('/admin/<mdp>/<alias>/<password>')
+def admin(mdp, alias, password):
+    if alias == '' or password == '' or mdp == '':
+        return 'No way !'
+    elif mdp == os.environ['MDP']:
+        if db.session.query(Users).filter(Users.alias == alias).count() == 0:
+            data = Users(alias, password)
+            db.session.add(data)
+            db.session.commit()
+            return 'New user saved'
+        return 'User already exist'        
+    else:
+        return 'Unauthorized'
+
 if __name__ == '__main__':
     app.run()
