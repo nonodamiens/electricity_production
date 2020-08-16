@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request
-from models import db
 from flask_sqlalchemy import SQLAlchemy
+import os
 
 app = Flask(__name__)
 
@@ -8,10 +8,10 @@ ENV = 'dev'
 
 if ENV == 'dev':
     app.debug = True
-    app.config['SQLALCHEMY_DATABASE_URI'] = ''
+    app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DEV_URI']
 else:
     app.debug = False
-    app.config['SQLALCHEMY_DATABASE_URI'] = ''
+    app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['PROD_URI']
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
