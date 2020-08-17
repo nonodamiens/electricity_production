@@ -36,7 +36,8 @@ def hello():
     if request.method == "POST":
         user = request.form['alias']
         password = request.form['password']
-        if db.session.query(Users).filter(Users.alias == user).count() == 0:
+        if db.session.query(Users).filter(Users.alias == user).count() == 0 or\
+             db.session.query(Users).filter(Users.password == password).count() == 0:
             return 'Non autorisé'
         else:
             return render_template('hello.html', pseudo=user)
