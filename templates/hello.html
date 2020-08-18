@@ -3,22 +3,77 @@
 
 <head>
     <meta charset="UTF-8">
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js'></script>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
     <title>French electricity production</title>
 </head>
 
 <body>
-    <h1>Bienvenue sur Electricity Forecast</h1>
+    <h1>Electricity Forecast</h1>
 
     <div id="main">
-        <h2>Ici on mettra les visu</h2>
         <p>
             {% if pseudo %}
-                <h1>Hello {{ pseudo }}!</h1>
+                <h3>Bienvenue {{ pseudo }}</h3>
             {% else %}
-                <h1>ERROR</h1>
+                <h3>ERROR</h3>
             {% endif %}
         </p>
+        <h2>Production électrique française</h2>
+        <canvas id="chart" width="600" height="400"></canvas>
+        <script>
+            // line chart data
+            var lineData = {
+              labels : [
+                {% for item in labels %}
+                  "{{ item }}",
+                {% endfor %}
+              ],
+      
+              datasets : [{
+                fillColor: "rgba(151,187,205,0.2)",
+                strokeColor: "rgba(151,187,205,1)",
+                pointColor: "rgba(151,187,205,1)",
+                pointStrokeColor: "#fff",
+                pointHighlightFill: "#fff",
+                pointHighlightStroke: "rgba(151,187,205,1)",
+                bezierCurve : false,
+                data : [
+              {% for item in values %}
+                    {{ item }},
+                  {% endfor %}]
+                }
+          ]
+            }
+      
+            Chart.defaults.global.animationSteps = 50;
+            Chart.defaults.global.tooltipYPadding = 16;
+            Chart.defaults.global.tooltipCornerRadius = 0;
+            Chart.defaults.global.tooltipTitleFontStyle = "normal";
+            Chart.defaults.global.tooltipFillColor = "rgba(0,0,0,0.8)";
+            Chart.defaults.global.animationEasing = "easeOutBounce";
+            Chart.defaults.global.responsive = false;
+            Chart.defaults.global.scaleLineColor = "black";
+            Chart.defaults.global.scaleFontSize = 16;
+      
+            // get line chart canvas
+            var mychart = document.getElementById("chart").getContext("2d");
+      
+            steps = 10
+            max = {{ max }}
+            // draw line chart
+            var LineChartDemo = new Chart(mychart).Line(lineData, {
+              scaleOverride: true,
+              scaleSteps: steps,
+              scaleStepWidth: Math.ceil(max / steps),
+              scaleStartValue: 0,
+              scaleShowVerticalLines: true,
+              scaleShowGridLines : true,
+              barShowStroke : true,
+              scaleShowLabels: true,
+              bezierCurve: false,
+            });
+          </script>
     </div>
     <div id="back">
         <p><a href="/">Pour retourner à l'accueil</a></p>

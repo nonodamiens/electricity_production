@@ -27,6 +27,18 @@ class Users(db.Model):
         self.alias = alias
         self.password = password
 
+labels = [
+    'JAN', 'FEB', 'MAR', 'APR',
+    'MAY', 'JUN', 'JUL', 'AUG',
+    'SEP', 'OCT', 'NOV', 'DEC'
+]
+
+values = [
+    967.67, 1190.89, 1079.75, 1349.19,
+    2328.91, 2504.28, 2873.83, 4764.87,
+    4349.29, 6458.30, 9907, 16297
+]
+
 @app.route('/')
 def index():
     return render_template('index.html')
@@ -40,7 +52,9 @@ def hello():
              db.session.query(Users).filter(Users.password == password).count() == 0:
             return 'Non autorisé'
         else:
-            return render_template('hello.html', pseudo=user)
+            line_labels = labels
+            line_values = values
+            return render_template('hello.html', pseudo=user, max=17000, labels=line_labels, values=line_values)
     else:
         return render_template('hello.html')
 
