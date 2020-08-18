@@ -4,7 +4,7 @@ import os
 
 app = Flask(__name__)
 
-ENV = 'prod'
+ENV = 'dev'
 
 if ENV == 'dev':
     app.debug = True
@@ -28,15 +28,33 @@ class Users(db.Model):
         self.password = password
 
 labels = [
-    'JAN', 'FEB', 'MAR', 'APR',
-    'MAY', 'JUN', 'JUL', 'AUG',
-    'SEP', 'OCT', 'NOV', 'DEC'
+    '2020-01', '2020-02', '2020-03', '2020-04',
+    '2020-05', '2020-06', '2020-07', '2020-08',
+    '2020-09', '2020-10', '2020-11', '2020-12'
 ]
 
 values = [
-    967.67, 1190.89, 1079.75, 1349.19,
-    2328.91, 2504.28, 2873.83, 4764.87,
-    4349.29, 6458.30, 9907, 16297
+    54742, 50788, 48071, 36952,
+    37429, 43043, 49012, 45234,
+    'NaN', 'NaN', 'NaN', 'NaN'
+]
+
+predictions = [
+    'NaN', 'NaN', 'NaN', 'NaN',
+    'NaN', 'NaN', 'NaN', 'NaN',
+    48230, 50432, 52777, 55320
+]
+
+maximum = [
+    'NaN', 'NaN', 'NaN', 'NaN',
+    'NaN', 'NaN', 'NaN', 'NaN',
+    50000, 55000, 60000, 65000
+]
+
+minimum = [
+    'NaN', 'NaN', 'NaN', 'NaN',
+    'NaN', 'NaN', 'NaN', 'NaN',
+    45000, 45000, 46000, 47000
 ]
 
 @app.route('/')
@@ -54,7 +72,12 @@ def hello():
         else:
             line_labels = labels
             line_values = values
-            return render_template('hello.html', pseudo=user, max=17000, labels=line_labels, values=line_values)
+            line_predictions = predictions
+            line_max = maximum
+            line_min = minimum
+            return render_template('hello.html', pseudo=user, max=17000,\
+                 labels=line_labels, values=line_values, predictions=line_predictions,\
+                     maximum=line_max, minimum=line_min )
     else:
         return render_template('hello.html')
 
