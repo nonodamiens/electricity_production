@@ -3,32 +3,35 @@
 
     <head>
         <meta charset="UTF-8">
-        <script src='<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>'></script>
+        <!-- <script src='<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>'></script> -->
         <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
         <title>French electricity production</title>
     </head>
 
     <body>
         <header>
-            <div id="header_block">Electricity Forecast</div>
+            <div id="logo">Electricity Forecast</div>
+            <div id="welcome">
+                {% if pseudo %}
+                    Bienvenue {{ pseudo }}
+                {% else %}
+                    ERROR
+                {% endif %}
+            </div>
         </header>
 
         <div id="content_block">
             <!-- <h1>Electricity Forecast</h1> -->
 
-            <div id="welcome">
-                <p>
-                    {% if pseudo %}
-                        <h3>Bienvenue {{ pseudo }}</h3>
-                    {% else %}
-                        <h3>ERROR</h3>
-                    {% endif %}
-                </p>
+            <div id="welcome_block">
+                <div id="title_page">
+                    <h2>Production électrique française</h2>
+                </div>
             </div>
 
-            <div id="source_choice">
-                <h2>Production électrique française</h2>
-                <div id="menu_source">
+            <div id="source_form_block">
+                
+                <div id="source_form">
                     <form action="#" method="GET">
                         <input type="radio" name="total" id="total" value="total" checked>
                         <label for="total">Total</label>
@@ -42,15 +45,16 @@
                 </div>
             </div>
 
-            <div id="graph">
-                <div style="text-align: -webkit-center">
-                    <canvas id="myChart" width="600" height="400"></canvas>
+            <div id="chart_block">
+                <div id="chart" style="text-align: -webkit-center">
+                    <canvas id="myChart" width="600" height="600"></canvas>
                 </div>
 
                 <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
                 <script>
 
-                    Chart.defaults.global.responsive = false;
+                    // Chart.defaults.global.responsive = false;
+                    Chart.defaults.scale.gridLines.display = false;
 
                     var ctx = document.getElementById('myChart').getContext('2d');
                     var chart = new Chart(ctx, {
@@ -110,7 +114,7 @@
         
                     // Configuration options go here
                     options: {
-
+                        responsive:true
                     }
                 });
                 </script>
@@ -128,7 +132,7 @@
           <p>Si vous souhaitez vous désabonner du service, modifier vos données personnelles ou les supprimer des bases de Denko, merci de clique <a href="#">ici</a> ou de contacter nos équipes à l'adresse <a href="mailto:team@denko_fr.com">team@denko_fr.com</a></p>
           <p><a href="#">Mentions légales</a> / <a href="#">Qui sommes nous ?</a></p>
         </footer>
-        
+
     </body>
 
 </html>
