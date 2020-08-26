@@ -20,18 +20,18 @@
             </div>
         </header>
 
-        <div id="content_block_center">
+        <div id="content_block">
             <!-- <h1>Electricity Forecast</h1> -->
 
-            <div id="welcome_block">
-                <div id="title_page">
-                    <h2>Production électrique française</h2>
+            <div id="title_block">
+                <div id="title">
+                    <h1>Production électrique française</h1>
                 </div>
             </div>
-            <div id="chart_block">
-                <div id="source_form_block">
+            <div id="login_block">
+                <!-- <div id="source_form_block"> -->
                     
-                    <div id="source_form">
+                    <div id="login">
                         <form action="#" method="GET">
                             <div id="buttons_block">
                                 <input type="radio" name="total" id="total" value="total" checked>
@@ -45,7 +45,7 @@
                             </div>
                         </form>
                     </div>
-                </div>
+            </div>
 
                 <div id="chart">
                     <canvas id="myChart" width="400" height="400"></canvas>
@@ -56,6 +56,7 @@
 
                     // Chart.defaults.global.responsive = false;
                     Chart.defaults.scale.gridLines.display = false;
+                    Chart.defaults.global.defaultFontColor = 'white';
 
                     var ctx = document.getElementById('myChart').getContext('2d');
                     var chart = new Chart(ctx, {
@@ -115,7 +116,8 @@
         
                     // Configuration options go here
                     options: {
-                        responsive:true
+                        responsive:true,
+                        maintainAspectRatio:false,
                     }
                 });
                 </script>

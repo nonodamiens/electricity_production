@@ -51,7 +51,7 @@ header {
 #content_block {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-around;
+    justify-content: space-between;
     border: inherit;
     width: auto;
     margin: 0 20%;
@@ -85,14 +85,16 @@ header {
     align-self: flex-end;
     border: inherit;
     width: 300px;
-    height: 300px;
+    height: auto;
+    background-color: #59dd97;
 }
 
 #login {
-    align-self: flex-end;
+    align-self: center;
+    margin: 10px 0px;
 }
 
-#login input, button {
+#login input[type:text], button {
     border: none;
     width: 90%;
     text-align: center;
@@ -146,10 +148,11 @@ header {
 }
 
 #chart {
-    /* width: 300px;
-    height: 300px; */
+    width: 100%;
+    /* height: 300px; */
     /* text-align: center; */
     background-color: #000;
+    margin: 5% 0%;
 }
 
 #source_form_block {
