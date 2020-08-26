@@ -122,24 +122,44 @@ header {
     padding: 0px 10px;
 }
 
+#content_block_center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: inherit;
+    width: auto;
+    margin: 0 20%;
+}
+
 #chart_block {
-    background-color: #fff;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin: 5% 0%;
 }
 
 #chart {
-    width: 300px;
-    height: 300px;
+    /* width: 300px;
+    height: 300px; */
     /* text-align: center; */
+    background-color: #000;
 }
 
 #source_form_block {
     display: flex;
-    align-self: flex-end;
-    border: inherit;
-    width: 300px;
-    height: 300px;
+    /* align-self: flex-end;
+    border: inherit; */
+    /* width: 300px;
+    height: 300px; */
+    background-color: #59dd97;
+    width: 100%;
+    margin-right: 5%;
 }
 
 #source_form {
+    width: inherit;
+}
 
+#source_form form {
+    flex-direction: column;
 }

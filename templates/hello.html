@@ -20,7 +20,7 @@
             </div>
         </header>
 
-        <div id="content_block">
+        <div id="content_block_center">
             <!-- <h1>Electricity Forecast</h1> -->
 
             <div id="welcome_block">
@@ -28,25 +28,24 @@
                     <h2>Production électrique française</h2>
                 </div>
             </div>
-
-            <div id="source_form_block">
-                
-                <div id="source_form">
-                    <form action="#" method="GET">
-                        <input type="radio" name="total" id="total" value="total" checked>
-                        <label for="total">Total</label>
-                        <input type="radio" name="nuclear" id="nuclear" value="nuclear">
-                        <label for="nuclear">Nucléaire</label>
-                        <input type="radio" name="enr" id="enr" value="enr">
-                        <label for="enr">EnR</label>
-                        <input type="radio" name="fossil" id="fossil" value="fossil">
-                        <label for="enr">Fossile</label>
-                    </form>
-                </div>
-            </div>
-
             <div id="chart_block">
-                <div id="chart" style="text-align: -webkit-center">
+                <div id="source_form_block">
+                    
+                    <div id="source_form">
+                        <form action="#" method="GET">
+                            <input type="radio" name="total" id="total" value="total" checked>
+                            <label for="total">Total</label>
+                            <input type="radio" name="nuclear" id="nuclear" value="nuclear">
+                            <label for="nuclear">Nucléaire</label>
+                            <input type="radio" name="enr" id="enr" value="enr">
+                            <label for="enr">EnR</label>
+                            <input type="radio" name="fossil" id="fossil" value="fossil">
+                            <label for="enr">Fossile</label>
+                        </form>
+                    </div>
+                </div>
+
+                <div id="chart">
                     <canvas id="myChart" width="600" height="600"></canvas>
                 </div>
 
