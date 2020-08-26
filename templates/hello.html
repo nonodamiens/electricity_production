@@ -33,20 +33,22 @@
                     
                     <div id="source_form">
                         <form action="#" method="GET">
-                            <input type="radio" name="total" id="total" value="total" checked>
-                            <label for="total">Total</label>
-                            <input type="radio" name="nuclear" id="nuclear" value="nuclear">
-                            <label for="nuclear">Nucléaire</label>
-                            <input type="radio" name="enr" id="enr" value="enr">
-                            <label for="enr">EnR</label>
-                            <input type="radio" name="fossil" id="fossil" value="fossil">
-                            <label for="enr">Fossile</label>
+                            <div id="buttons_block">
+                                <input type="radio" name="total" id="total" value="total" checked>
+                                <label for="total">Total</label>
+                                <input type="radio" name="nuclear" id="nuclear" value="nuclear">
+                                <label for="nuclear">Nucléaire</label>
+                                <input type="radio" name="enr" id="enr" value="enr">
+                                <label for="enr">EnR</label>
+                                <input type="radio" name="fossil" id="fossil" value="fossil">
+                                <label for="enr">Fossile</label>
+                            </div>
                         </form>
                     </div>
                 </div>
 
                 <div id="chart">
-                    <canvas id="myChart" width="600" height="600"></canvas>
+                    <canvas id="myChart" width="400" height="400"></canvas>
                 </div>
 
                 <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
