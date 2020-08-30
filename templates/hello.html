@@ -28,28 +28,37 @@
                     <h1>Production électrique française</h1>
                 </div>
             </div>
+
+            <div id="chart">
+                <canvas id="myChart" height="300"></canvas>
+            </div>
+
             <div id="login_block">
                 <!-- <div id="source_form_block"> -->
                     
                     <div id="login">
                         <form action="#" method="GET">
                             <div id="buttons_block">
-                                <input type="radio" name="total" id="total" value="total" checked>
-                                <label for="total">Total</label>
-                                <input type="radio" name="nuclear" id="nuclear" value="nuclear">
-                                <label for="nuclear">Nucléaire</label>
-                                <input type="radio" name="enr" id="enr" value="enr">
-                                <label for="enr">EnR</label>
-                                <input type="radio" name="fossil" id="fossil" value="fossil">
-                                <label for="enr">Fossile</label>
+                                <label for="total">
+                                    <input type="radio" name="total" id="total" value="total" checked>
+                                    Total
+                                </label>
+                                <label for="nuclear">
+                                    <input type="radio" name="nuclear" id="nuclear" value="nuclear">
+                                    Nucléaire
+                                </label>
+                                <label for="enr">
+                                    <input type="radio" name="enr" id="enr" value="enr">
+                                    EnR
+                                </label>
+                                <label for="enr">
+                                    <input type="radio" name="fossil" id="fossil" value="fossil">
+                                    Fossile
+                                </label>
                             </div>
                         </form>
                     </div>
             </div>
-
-                <div id="chart">
-                    <canvas id="myChart" width="400" height="400"></canvas>
-                </div>
 
                 <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
                 <script>
