@@ -1,12 +1,12 @@
 import pyodbc
-from sqlalchemy import create_engine
+# from sqlalchemy import create_engine
 import urllib
 from flask import Flask, render_template, request
 from flask_sqlalchemy import SQLAlchemy
 import os
 
 params = urllib.parse.quote_plus \
-(r'Driver={ODBC Driver 17 for SQL Server};Server=tcp:denko.database.windows.net,1433;Database=electricity_forecast;Uid=***;Pwd=***;Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30;')
+(r'Driver={ODBC Driver 17 for SQL Server};Server=tcp:denko.database.windows.net,1433;Database=electricity_forecast;Uid=arnaud;Pwd='+os.environ['PWD']+';Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30;')
 # conn_str = 'mssql+pyodbc:///?odbc_connect={}'.format(params)
 # engine_azure = create_engine(conn_str,echo=True)
 

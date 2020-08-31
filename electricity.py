@@ -1,14 +1,31 @@
 from flask import Flask, render_template, request
 from flask_sqlalchemy import SQLAlchemy
+import pyodbc
+import urllib
 import os
 
 app = Flask(__name__)
 
+# Connection informations for SQL database
+# --- On Azure ---
+server = 'denko.database.windows.net'
+database = 'electricity_forecast'
+username = 'arnaud'
+password = os.environ['PWD']   
+driver= '{ODBC Driver 17 for SQL Server}'
+
+params = urllib.parse.quote_plus \
+(r'Driver='+driver+';Server=tcp:'+server+',1433;Database='+database+';Uid='+username+';Pwd='+password+';Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30;')
+
+# Setting the working env
 ENV = 'dev'
 
 if ENV == 'dev':
     app.debug = True
-    app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DEV_URI']
+    # --- For heroku / postgresql ---
+    # app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DEV_URI']
+    # --- For Azure sql db ---
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'mssql+pyodbc:///?odbc_connect={}'.format(params)
 else:
     app.debug = False
     app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
