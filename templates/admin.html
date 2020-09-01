@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    <title>DENKO-administration</title>
+</head>
+
+    <body>
+        <header>
+            <div id="logo">Electricity Forecast Administration</div>
+            <div id="welcome">
+                {% if administrator %}
+                    Bienvenue {{ administrator }}
+                {% else %}
+                    Merci de vous connecter
+                {% endif %}
+            </div>
+        </header>
+
+        <div id="content_block">
+
+        </div>
+
+        <footer>
+
+        </footer>
+
+    </body>
+
+</html>

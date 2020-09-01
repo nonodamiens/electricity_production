@@ -116,7 +116,7 @@ def admin():
     if request.method == "POST":
         return 'page acces et verif connexion'
     else:
-        return 'page de connexion admin'
+        return render_template('admin.html')
 
 # @app.route('/admin/<mdp>/<alias>/<password>')
 # def admin(mdp, alias, password):
