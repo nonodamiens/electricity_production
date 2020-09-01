@@ -44,6 +44,18 @@ class Users(db.Model):
         self.alias = alias
         self.password = password
 
+class Electric_prod_fr(db.Model):
+    __tablename__ = 'electricity_production_france'
+    id = db.Column(db.Integer, primary_key=True)
+    date = db.Column(db.Date)
+    sourcetype_id = db.Column(db.Integer)
+    production_mw = db.Column(db.Integer)
+
+    def __init__(self, date, sourcetype_id, production_mw):
+        self.date = date
+        self.sourcetype_id = sourcetype_id
+        self.proproduction_mw = production_mw
+
 labels = [
     '2020-01', '2020-02', '2020-03', '2020-04',
     '2020-05', '2020-06', '2020-07', '2020-08',
