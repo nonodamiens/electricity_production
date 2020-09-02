@@ -6,27 +6,143 @@
 
 {% block header %}
     <div id="logo">Electricity forecast</div>
+    <div id="welcome">
+        {% if pseudo %}
+            Bienvenue {{ pseudo }}
+        {% else %}
+            Merci de vous connecter
+        {% endif %}
+    </div>
 {% endblock %}
 
 {% block content %}
     <div id="title_block">
         <div id="title">
-            <h1>Electricity Forecast</h1>
+            {% if pseudo %}
+                <h1>Production électrique française</h1>
+            {% else %}
+                <h1>Electricity Forecast</h1>
+            {% endif %}
         </div>
     </div>
     <!-- <img src="{{url_for('static', filename='logo.jpg')}}" alt="logo de la société Denko"> -->
     <!-- <h1>Bienvenue sur Electricity Forecast</h1> -->
-
-    <div id="login_block">
-        <div id="login">
-            <!-- <h2>Merci de vous connecter avec vos identifiants</h2> -->
-            <form action="hello" method="POST">
-                <input name="alias" type="text" class="alias" placeholder="Votre pseudo">
-                <input name="password" type="password" class="pass" placeholder="Votre mot de passe">
-                <button class="button" type="submit">Valider</button>
-            </form>
+    {% if pseudo %}
+        <div id="chart">
+            <canvas id="myChart" height="300"></canvas>
         </div>
-    </div>
+
+        <div id="login_block">
+            <div id="login">
+                <form action="#" method="GET">
+                    <div id="buttons_block">
+                        <label for="total">
+                            <input type="radio" name="total" id="total" value="total" checked>
+                            Total
+                        </label>
+                        <label for="nuclear">
+                            <input type="radio" name="nuclear" id="nuclear" value="nuclear">
+                            Nucléaire
+                        </label>
+                        <label for="enr">
+                            <input type="radio" name="enr" id="enr" value="enr">
+                            EnR
+                        </label>
+                        <label for="enr">
+                            <input type="radio" name="fossil" id="fossil" value="fossil">
+                            Fossile
+                        </label>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+        <script>
+
+            // Chart.defaults.global.responsive = false;
+            Chart.defaults.scale.gridLines.display = false;
+            Chart.defaults.global.defaultFontColor = 'white';
+
+            var ctx = document.getElementById('myChart').getContext('2d');
+            var chart = new Chart(ctx, {
+                // The type of chart we want to create
+                type: 'line',
+        
+                // The data for our dataset
+                data: {
+                    labels: [
+                        {% for item in labels %}
+                            "{{ item }}",
+                        {% endfor %}
+                    ],
+                    datasets: [{
+                        label: 'Confirmed values',
+                        backgroundColor: 'rgb(52, 134, 235,0.2)',
+                        borderColor: 'rgb(52, 134, 235)',
+                        scaleShowLabels: true,
+                        data: [
+                            {% for item in values %}
+                                {{ item }},
+                            {% endfor %}
+                            ]
+                    },
+                    {
+                        label: 'Predictions',
+                        backgroundColor: 'rgb(235, 92, 52, 0.2)',
+                        borderColor: 'rgb(235, 92, 52)',
+                        data: [
+                            {% for item in predictions %}
+                                {{ item }},
+                            {% endfor %}
+                        ]
+                    },
+                    {
+                        label: 'Max',
+                        backgroundColor: 'rgb(0, 92, 52, 0.0)',
+                        borderColor: 'rgb(66, 66, 66)',
+                        data: [
+                            {% for item in maximum %}
+                                {{ item }},
+                            {% endfor %}
+                        ]
+                    },
+                    {
+                        label: 'Min',
+                        backgroundColor: 'rgb(0, 92, 52, 0.0)',
+                        borderColor: 'rgb(66, 66, 66)',
+                        data: [
+                            {% for item in minimum %}
+                                {{ item }},
+                            {% endfor %}
+                        ]
+                    },                    
+                ]
+            },
+
+            // Configuration options go here
+            options: {
+                responsive:true,
+                maintainAspectRatio:false,
+            }
+        });
+        </script>
+    {% else %}
+        <div id="login_block">
+            <div id="login">
+                {% if error %}
+                    <div id="error">
+                       {{ error }}
+                    </div>
+                {% endif %}
+                <form action="./" method="POST">
+                    <input name="alias" type="text" class="alias" placeholder="Votre pseudo">
+                    <input name="password" type="password" class="pass" placeholder="Votre mot de passe">
+                    <button class="button" type="submit">Valider</button>
+                </form>
+            </div>
+        </div>
+    {% endif %}
 {% endblock %}
 
 {% block footer %}

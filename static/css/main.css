@@ -30,6 +30,10 @@ body a {
     height: 200px;
 }
 
+#error {
+    color: red;
+}
+
 /* HEADER */
 
 header {

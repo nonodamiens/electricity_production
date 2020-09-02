@@ -21,19 +21,32 @@
             <h1>Electricity Forecast Admin.</h1>
         </div>
     </div>
-    <!-- <img src="{{url_for('static', filename='logo.jpg')}}" alt="logo de la société Denko"> -->
-    <!-- <h1>Bienvenue sur Electricity Forecast</h1> -->
-
-    <div id="login_block">
-        <div id="login">
-            <!-- <h2>Merci de vous connecter avec vos identifiants</h2> -->
-            <form action="admin" method="POST">
-                <input name="alias" type="text" class="alias" placeholder="Votre identifiant administrateur">
-                <input name="password" type="password" class="pass" placeholder="Votre mot de passe">
-                <button class="button" type="submit">Valider</button>
-            </form>
+    {% if administrator %}
+        Bienvenue {{ administrator }}
+    {% elif error %}
+        <div id="login_block">
+            <div id="login">
+                <div id="error">
+                    {{ error }}
+                </div>
+                <form action="admin" method="POST">
+                    <input name="alias" type="text" class="alias" placeholder="Votre identifiant administrateur">
+                    <input name="password" type="password" class="pass" placeholder="Votre mot de passe">
+                    <button class="button" type="submit">Valider</button>
+                </form>
+            </div>
         </div>
-    </div>
+    {% else %}
+        <div id="login_block">
+            <div id="login">
+                <form action="admin" method="POST">
+                    <input name="alias" type="text" class="alias" placeholder="Votre identifiant administrateur">
+                    <input name="password" type="password" class="pass" placeholder="Votre mot de passe">
+                    <button class="button" type="submit">Valider</button>
+                </form>
+            </div>
+        </div>
+    {% endif %}
 {% endblock %}
 
 {% block footer %}

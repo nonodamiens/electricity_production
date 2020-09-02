@@ -89,28 +89,25 @@ minimum = [
 ]
 
 @app.route('/')
+@app.route('/', methods=['POST'])
 def index():
-    return render_template('index.html')
-
-@app.route('/hello', methods=["POST"])
-def hello():
     if request.method == "POST":
         user = request.form['alias']
         password = request.form['password']
         if db.session.query(Users).filter(Users.alias == user).count() == 0 or\
              db.session.query(Users).filter(Users.password == password).count() == 0:
-            return 'Non autorisé'
+            return render_template('index.html', error = 'Non autorisé')
         else:
             line_labels = labels
             line_values = values
             line_predictions = predictions
             line_max = maximum
             line_min = minimum
-            return render_template('hello.html', pseudo=user, max=17000,\
+            return render_template('index.html', pseudo=user, max=17000,\
                  labels=line_labels, values=line_values, predictions=line_predictions,\
                      maximum=line_max, minimum=line_min )
     else:
-        return render_template('hello.html')
+        return render_template('index.html')
 
 @app.route('/admin')
 @app.route('/admin', methods=["POST"])
@@ -120,7 +117,7 @@ def admin():
         password = request.form['password']
         if db.session.query(Users).filter(Users.alias == user).count() != 1 or\
              db.session.query(Users).filter(Users.password == password).count() != 1:
-            return 'Wrong login or password'
+            return render_template('admin.html', error = 'Wrong login or password')
         else:
             query =  db.session.query(Users).filter(Users.alias == user).first()
             print(query.administrator)
@@ -128,8 +125,7 @@ def admin():
             if query.administrator:
                 return render_template('admin.html', administrator = query.alias)
             else:
-                return 'Not authorized'
-        return 'page acces et verif connexion'
+                return render_template('admin.html', error = 'You are not authorized')
     else:
         return render_template('admin.html')
 
