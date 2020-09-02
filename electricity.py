@@ -126,7 +126,7 @@ def admin():
             print(query.administrator)
             
             if query.administrator:
-                return 'binevenue administrator'
+                return render_template('admin.html', administrator = query.alias)
             else:
                 return 'Not authorized'
         return 'page acces et verif connexion'
