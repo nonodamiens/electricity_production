@@ -1,0 +1,30 @@
+<!doctype html>
+
+<html lang="fr">
+
+    <head>
+        <title>{% block title %}{% endblock %}</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
+    </head>
+
+    <body>
+
+        <header>
+            {% block header %}{% endblock %}
+        </header>
+    
+        <section id="content_block">
+            <div id="title_block">
+                <div id="title">
+                    <h1>Electricity Forecast</h1>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            {% block header %}{% endblock %}
+        </footer>
+    
+    </body>
+
+</html>
