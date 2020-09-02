@@ -1,50 +1,40 @@
-<!DOCTYPE html>
-<html lang="fr">
+{% extends "base.html" %}
 
-<head>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
-    <title>DENKO-administration</title>
-</head>
+{% block title %}
+    DENKO-administration
+{% endblock %}
 
-    <body>
-        <header>
-            <div id="logo">Electricity Forecast Administration</div>
-            <div id="welcome">
-                {% if administrator %}
-                    Bienvenue {{ administrator }}
-                {% else %}
-                    Merci de vous connecter
-                {% endif %}
-            </div>
-        </header>
+{% block header %}
+    <div id="logo">Electricity Forecast Administration</div>
+    <div id="welcome">
+        {% if administrator %}
+            Bienvenue {{ administrator }}
+        {% else %}
+            Merci de vous connecter
+        {% endif %}
+    </div>
+{% endblock %}
 
-        <div id="content_block">
-            <div id="title_block">
-                <div id="title">
-                    <h1>Electricity Forecast Admin.</h1>
-                </div>
-            </div>
-            <!-- <img src="{{url_for('static', filename='logo.jpg')}}" alt="logo de la société Denko"> -->
-            <!-- <h1>Bienvenue sur Electricity Forecast</h1> -->
-    
-            <div id="login_block">
-                <div id="login">
-                    <!-- <h2>Merci de vous connecter avec vos identifiants</h2> -->
-                    <form action="admin" method="POST">
-                        <input name="alias" type="text" class="alias" placeholder="Votre identifiant administrateur">
-                        <input name="password" type="password" class="pass" placeholder="Votre mot de passe">
-                        <button class="button" type="submit">Valider</button>
-                    </form>
-                </div>
-            </div>
-
+{% block content %}
+    <div id="title_block">
+        <div id="title">
+            <h1>Electricity Forecast Admin.</h1>
         </div>
+    </div>
+    <!-- <img src="{{url_for('static', filename='logo.jpg')}}" alt="logo de la société Denko"> -->
+    <!-- <h1>Bienvenue sur Electricity Forecast</h1> -->
 
-        <footer>
+    <div id="login_block">
+        <div id="login">
+            <!-- <h2>Merci de vous connecter avec vos identifiants</h2> -->
+            <form action="admin" method="POST">
+                <input name="alias" type="text" class="alias" placeholder="Votre identifiant administrateur">
+                <input name="password" type="password" class="pass" placeholder="Votre mot de passe">
+                <button class="button" type="submit">Valider</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}
 
-        </footer>
-
-    </body>
-
-</html>
+{% block footer %}
+{% endblock %}

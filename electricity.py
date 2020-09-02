@@ -133,5 +133,9 @@ def admin():
     else:
         return render_template('admin.html')
 
+@app.route('/index2')
+def html2():
+    return render_template('index2.html')
+
 if __name__ == '__main__':
     app.run()

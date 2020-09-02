@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    <title>DENKO</title>
+</head>
+
+<body>
+
+    <header>
+        <div id="logo">Electricity forecast</div>
+    </header>
+
+    <div id="content_block">
+        <div id="title_block">
+            <div id="title">
+                <h1>Electricity Forecast</h1>
+            </div>
+        </div>
+        <!-- <img src="{{url_for('static', filename='logo.jpg')}}" alt="logo de la société Denko"> -->
+        <!-- <h1>Bienvenue sur Electricity Forecast</h1> -->
+
+        <div id="login_block">
+            <div id="login">
+                <!-- <h2>Merci de vous connecter avec vos identifiants</h2> -->
+                <form action="hello" method="POST">
+                    <input name="alias" type="text" class="alias" placeholder="Votre pseudo">
+                    <input name="password" type="password" class="pass" placeholder="Votre mot de passe">
+                    <button class="button" type="submit">Valider</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div id="white_space"></div>
+
+    <footer>
+        <p>Votre pseudo et mot de passe vous ont été communiqués lors de votre inscription. Si vous avez perdu ou oubliez vos identifiants, merci de contacter nos équipes.</p>
+        <p>Si vous souhaitez vous désabonner du service, modifier vos données personnelles ou les supprimer des bases de Denko, merci de clique <a href="#">ici</a> ou de contacter nos équipes à l'adresse <a href="mailto:team@denko_fr.com">team@denko_fr.com</a></p>
+        <p><a href="#">Mentions légales</a><a href="#">Qui sommes nous ?</a></p>
+    </footer>
+
+</body>
+</html>
