@@ -39,10 +39,12 @@ class Users(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     alias = db.Column(db.String(25))
     password = db.Column(db.String(50))
+    administrator = db.Column(db.Boolean)
 
-    def __init__(self, alias, password):
+    def __init__(self, alias, password, administrator):
         self.alias = alias
         self.password = password
+        self.administrator = administrator
 
 class Electric_prod_fr(db.Model):
     __tablename__ = 'electricity_production_france'
@@ -114,23 +116,22 @@ def hello():
 @app.route('/admin', methods=["POST"])
 def admin():
     if request.method == "POST":
+        user = request.form['alias']
+        password = request.form['password']
+        if db.session.query(Users).filter(Users.alias == user).count() != 1 or\
+             db.session.query(Users).filter(Users.password == password).count() != 1:
+            return 'Wrong login or password'
+        else:
+            query =  db.session.query(Users).filter(Users.alias == user).first()
+            print(query.administrator)
+            
+            if query.administrator:
+                return 'binevenue administrator'
+            else:
+                return 'Not authorized'
         return 'page acces et verif connexion'
     else:
         return render_template('admin.html')
-
-# @app.route('/admin/<mdp>/<alias>/<password>')
-# def admin(mdp, alias, password):
-#     if alias == '' or password == '' or mdp == '':
-#         return 'No way !'
-#     elif mdp == os.environ['MDP']:
-#         if db.session.query(Users).filter(Users.alias == alias).count() == 0:
-#             data = Users(alias, password)
-#             db.session.add(data)
-#             db.session.commit()
-#             return 'New user saved'
-#         return 'User already exist'        
-#     else:
-#         return 'Unauthorized'
 
 if __name__ == '__main__':
     app.run()
