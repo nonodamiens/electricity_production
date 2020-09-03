@@ -37,15 +37,17 @@
                 <form action="admin" method="POST">
                     <input name="alias" type="text" class="alias" placeholder="identifiant">
                     <input name="password" type="password" class="pass" placeholder="mot de passe">
-                    <label for="user">
-                        <input type="radio" id="user" name="account_type" value="0">
-                        Compte utilisateur
-                    </label>
-                    <label for="admin">
-                        <input type="radio" id="admin" name="account_type" value="1">
-                        Compte administrateur
-                    </label>
-                    <button class="button" type="submit">Valider</button>
+                    <div id="buttons_block">
+                        <label for="user">
+                            <input type="radio" id="user" name="account_type" value="0">
+                            Compte utilisateur
+                        </label>
+                        <label for="admin">
+                            <input type="radio" id="admin" name="account_type" value="1">
+                            Compte administrateur
+                        </label>
+                    </div>
+                    <button class="button" type="submit">Enregistrer le nouvel utilisateur</button>
                 </form>
             </div>
         </div>
