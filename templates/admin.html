@@ -35,6 +35,7 @@
                     {{ error }}
                 </div>
                 <form action="admin" method="POST">
+                    <input name="data_type" type="hidden" class="data_type" value="user_creation">
                     <input name="alias" type="text" class="alias" placeholder="identifiant">
                     <input name="password" type="password" class="pass" placeholder="mot de passe">
                     <div id="buttons_block">
@@ -64,6 +65,7 @@
                     {{ error }}
                 </div>
                 <form action="admin" method="POST">
+                    <input name="data_type" type="hidden" class="data_type" value="login">
                     <input name="alias" type="text" class="alias" placeholder="Votre identifiant administrateur">
                     <input name="password" type="password" class="pass" placeholder="Votre mot de passe">
                     <button class="button" type="submit">Valider</button>

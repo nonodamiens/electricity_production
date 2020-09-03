@@ -113,25 +113,29 @@ def index():
 @app.route('/admin', methods=["POST"])
 def admin():
     if request.method == "POST":
-        user = request.form['alias']
-        password = request.form['password']
-        if db.session.query(Users).filter(Users.alias == user).count() != 1 or\
-             db.session.query(Users).filter(Users.password == password).count() != 1:
-            return render_template('admin.html', error = 'Wrong login or password')
-        else:
-            query =  db.session.query(Users).filter(Users.alias == user).first()
-            print(query.administrator)
-            
-            if query.administrator:
-                return render_template('admin.html', administrator = query.alias)
+        if request.form.get('data_type') == 'login':
+            user = request.form['alias']
+            password = request.form['password']
+            if db.session.query(Users).filter(Users.alias == user).count() != 1 or\
+                db.session.query(Users).filter(Users.password == password).count() != 1:
+                return render_template('admin.html', error = 'Wrong login or password')
             else:
-                return render_template('admin.html', error = 'You are not authorized')
+                query =  db.session.query(Users).filter(Users.alias == user).first()
+                print(query.administrator)
+                
+                if query.administrator:
+                    return render_template('admin.html', administrator = query.alias)
+                else:
+                    return render_template('admin.html', error = 'You are not authorized')
+        elif request.form.get('data_type') == 'user_creation':
+            user = request.form['alias']
+            password = request.form['password']
+            administrator = request.form['account_type']
+        else:
+            return render_template('admin.html', error = 'An error occured, please retry')
+
     else:
         return render_template('admin.html')
-
-@app.route('/index2')
-def html2():
-    return render_template('index2.html')
 
 if __name__ == '__main__':
     app.run()
