@@ -22,8 +22,31 @@
         </div>
     </div>
     {% if administrator %}
-        Bienvenue {{ administrator }}
+        <div id="chart">
+            <div id="myChart" height="300">
+                <p>Bloc de gestion de la data</p>
+            </div>
+        </div>
+        <div id="login_block">
+            <div id="login">
+                <p>Bloc de gestion des utilisateurs</p>
+                <div id="error">
+                    {{ error }}
+                </div>
+                <form action="admin" method="POST">
+                    <input name="alias" type="text" class="alias" placeholder="Votre identifiant administrateur">
+                    <input name="password" type="password" class="pass" placeholder="Votre mot de passe">
+                    <button class="button" type="submit">Valider</button>
+                </form>
+            </div>
+        </div>
     {% elif error %}
+        <div id="chart">
+            <div id="myChart" height="300">
+                <p>Bienvenue sur l'administration d'Electricity Forecast.<br />
+                Merci de vous authentitifier pour accéder a l'interface d'administration.</p>
+            </div>
+        </div>
         <div id="login_block">
             <div id="login">
                 <div id="error">
@@ -37,6 +60,12 @@
             </div>
         </div>
     {% else %}
+        <div id="chart">
+            <div id="myChart" height="300">
+                <p>Bienvenue sur l'administration d'Electricity Forecast.<br />
+                Merci de vous authentitifier pour accéder a l'interface d'administration.</p>
+            </div>
+        </div>
         <div id="login_block">
             <div id="login">
                 <form action="admin" method="POST">

@@ -128,6 +128,12 @@
         });
         </script>
     {% else %}
+        <div id="chart">
+            <div id="myChart" height="300">
+                <p>Bienvenue sur Electricity Forecast, votre site de prediction de production électrique.<br />
+                Merci de vous authentitifier pour accéder a votre tableau de bord.</p>
+            </div>
+        </div>
         <div id="login_block">
             <div id="login">
                 {% if error %}
@@ -146,6 +152,7 @@
 {% endblock %}
 
 {% block footer %}
+    <p><a href="./">Retour à l'acceuil</a></p>
     <p>Votre pseudo et mot de passe vous ont été communiqués lors de votre inscription. Si vous avez perdu ou oubliez vos identifiants, merci de contacter nos équipes.</p>
     <p>Si vous souhaitez vous désabonner du service, modifier vos données personnelles ou les supprimer des bases de Denko, merci de clique <a href="#">ici</a> ou de contacter nos équipes à l'adresse <a href="mailto:team@denko_fr.com">team@denko_fr.com</a></p>
     <p><a href="#">Mentions légales</a><a href="#">Qui sommes nous ?</a></p>
