@@ -29,13 +29,22 @@
         </div>
         <div id="login_block">
             <div id="login">
-                <p>Bloc de gestion des utilisateurs</p>
+                <p>Bloc de gestion des utilisateurs<br />
+                Ajouter un nouvel utilisateur :</p>
                 <div id="error">
                     {{ error }}
                 </div>
                 <form action="admin" method="POST">
-                    <input name="alias" type="text" class="alias" placeholder="Votre identifiant administrateur">
-                    <input name="password" type="password" class="pass" placeholder="Votre mot de passe">
+                    <input name="alias" type="text" class="alias" placeholder="identifiant">
+                    <input name="password" type="password" class="pass" placeholder="mot de passe">
+                    <label for="user">
+                        <input type="radio" id="user" name="account_type" value="0">
+                        Compte utilisateur
+                    </label>
+                    <label for="admin">
+                        <input type="radio" id="admin" name="account_type" value="1">
+                        Compte administrateur
+                    </label>
                     <button class="button" type="submit">Valider</button>
                 </form>
             </div>
