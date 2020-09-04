@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, session
 from flask_sqlalchemy import SQLAlchemy
 import pyodbc
 import urllib
@@ -112,7 +112,25 @@ def index():
 @app.route('/admin')
 @app.route('/admin', methods=["POST"])
 def admin():
-    if request.method == "POST":
+    # Session check
+    if 'username' in session:
+        # Check admin level rights
+        if session['admin']:
+            # Check request form
+            if request.method == "POST":
+                if request.form.get('data_type') == 'user_creation':
+                    user = request.form['alias']
+                    password = request.form['password']
+                    admin = bool(int(request.form['account_type']))
+                    new_user = Users(alias=user, password=password, administrator=admin)
+                    db.session.add(new_user)
+                    db.session.commit()
+                    return render_template('admin.html', response = 'New user inserted')
+                else:
+                    return render_template('admin.html', error = 'An error occured, please retry')
+            else:
+                return render_template('admin.html')
+    elif request.method == "POST":
         if request.form.get('data_type') == 'login':
             user = request.form['alias']
             password = request.form['password']
@@ -121,21 +139,18 @@ def admin():
                 return render_template('admin.html', error = 'Wrong login or password')
             else:
                 query =  db.session.query(Users).filter(Users.alias == user).first()
-                print(query.administrator)
                 
                 if query.administrator:
-                    return render_template('admin.html', administrator = query.alias)
+                    session['username'] = query.alias
+                    session['admin'] = True
+                    return render_template('admin.html', administrator=query.alias)
                 else:
                     return render_template('admin.html', error = 'You are not authorized')
-        elif request.form.get('data_type') == 'user_creation':
-            user = request.form['alias']
-            password = request.form['password']
-            administrator = request.form['account_type']
         else:
             return render_template('admin.html', error = 'An error occured, please retry')
-
     else:
         return render_template('admin.html')
 
 if __name__ == '__main__':
+    app.secret_key=os.environ['KEY']
     app.run()

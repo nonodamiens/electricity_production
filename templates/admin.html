@@ -7,8 +7,8 @@
 {% block header %}
     <div id="logo">Electricity Forecast Administration</div>
     <div id="welcome">
-        {% if administrator %}
-            Bienvenue {{ administrator }}
+        {% if session['username'] %}
+            Bienvenue {{ session['username'] }}
         {% else %}
             Merci de vous connecter
         {% endif %}
@@ -21,7 +21,7 @@
             <h1>Electricity Forecast Admin.</h1>
         </div>
     </div>
-    {% if administrator %}
+    {% if session['username'] %}
         <div id="chart">
             <div id="myChart" height="300">
                 <p>Bloc de gestion de la data</p>
@@ -29,6 +29,14 @@
         </div>
         <div id="login_block">
             <div id="login">
+                {% if response %}
+                    <div id="response">
+                        {{ response }}
+                    </div>
+                {% endif %}
+                <div id="error">
+                    {{ error }}
+                </div>
                 <p>Bloc de gestion des utilisateurs<br />
                 Ajouter un nouvel utilisateur :</p>
                 <div id="error">
@@ -82,6 +90,7 @@
         <div id="login_block">
             <div id="login">
                 <form action="admin" method="POST">
+                    <input name="data_type" type="hidden" class="data_type" value="login">
                     <input name="alias" type="text" class="alias" placeholder="Votre identifiant administrateur">
                     <input name="password" type="password" class="pass" placeholder="Votre mot de passe">
                     <button class="button" type="submit">Valider</button>
