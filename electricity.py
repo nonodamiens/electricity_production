@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, session
+from flask import Flask, render_template, request, session, redirect, url_for, flash
 from flask_sqlalchemy import SQLAlchemy
 import pyodbc
 import urllib
@@ -156,14 +156,16 @@ def logout():
     if 'username' in session:
         session.pop('username', None)
         session.pop('admin', None)
-    return render_template('index.html', response='Vous êtes déconnecté')
+        flash("Vous êtes déconnecté")
+    return redirect(url_for('index'))
 
 @app.route('/admin/logout')
 def adminlogout():
     if 'username' in session:
         session.pop('username', None)
         session.pop('admin', None)
-    return render_template('admin.html', response='Vous êtes déconnecté')
+        flash("Vous êtes déconnecté")
+    return redirect(url_for('admin'))
 
 if __name__ == '__main__':
     app.secret_key=os.environ['KEY']

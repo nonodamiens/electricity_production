@@ -8,7 +8,7 @@
     <div id="logo">Electricity Forecast Administration</div>
     <div id="welcome">
         {% if session['username'] %}
-            Bienvenue {{ session['username'] }}
+            Bienvenue {{ session['username'] }} <a href="./admin/logout">logout</a>
         {% else %}
             Merci de vous connecter
         {% endif %}
