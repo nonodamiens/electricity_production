@@ -151,6 +151,20 @@ def admin():
     else:
         return render_template('admin.html')
 
+@app.route('/logout')
+def logout():
+    if 'username' in session:
+        session.pop('username', None)
+        session.pop('admin', None)
+    return render_template('index.html', response='Vous êtes déconnecté')
+
+@app.route('/admin/logout')
+def adminlogout():
+    if 'username' in session:
+        session.pop('username', None)
+        session.pop('admin', None)
+    return render_template('admin.html', response='Vous êtes déconnecté')
+
 if __name__ == '__main__':
     app.secret_key=os.environ['KEY']
     app.run()

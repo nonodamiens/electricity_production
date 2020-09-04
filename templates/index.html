@@ -8,7 +8,7 @@
     <div id="logo">Electricity forecast</div>
     <div id="welcome">
         {% if pseudo %}
-            Bienvenue {{ pseudo }}
+            Bienvenue {{ pseudo }} <a href="./logout">logout</a>
         {% else %}
             Merci de vous connecter
         {% endif %}
@@ -136,6 +136,11 @@
         </div>
         <div id="login_block">
             <div id="login">
+                {% if response %}
+                    <div id="response">
+                        {{ response }}
+                    </div>
+                {% endif %}
                 {% if error %}
                     <div id="error">
                        {{ error }}
