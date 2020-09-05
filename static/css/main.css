@@ -88,7 +88,8 @@ header {
 
 #login_block {
     display: flex;
-    /* align-self: flex-end; */
+    flex-direction: column;
+    justify-content: flex-end;
     border: inherit;
     width: 300px;
     height: 300px;
@@ -96,8 +97,8 @@ header {
 }
 
 #login {
-    align-self: flex-end;
-    margin: 10px auto;
+    /* align-self: flex-end; */
+    /* margin: 10px auto; */
 }
 
 #login input[type="text"], input[type="password"], button {
