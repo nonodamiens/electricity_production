@@ -7,8 +7,8 @@
 {% block header %}
     <div id="logo">Electricity forecast</div>
     <div id="welcome">
-        {% if pseudo %}
-            Bienvenue {{ pseudo }} <a href="./logout">logout</a>
+        {% if session["username"] %}
+            Bienvenue {{ session["username"] }} <a href="./logout">logout</a>
         {% else %}
             Merci de vous connecter
         {% endif %}
@@ -18,7 +18,7 @@
 {% block content %}
     <div id="title_block">
         <div id="title">
-            {% if pseudo %}
+            {% if session["username"] %}
                 <h1>Production électrique française</h1>
             {% else %}
                 <h1>Electricity Forecast</h1>
@@ -27,7 +27,7 @@
     </div>
     <!-- <img src="{{url_for('static', filename='logo.jpg')}}" alt="logo de la société Denko"> -->
     <!-- <h1>Bienvenue sur Electricity Forecast</h1> -->
-    {% if pseudo %}
+    {% if session["username"] %}
         <div id="chart">
             <canvas id="myChart" height="300"></canvas>
         </div>

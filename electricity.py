@@ -98,12 +98,15 @@ def index():
              db.session.query(Users).filter(Users.password == password).count() == 0:
             return render_template('index.html', error = 'Non autorisé')
         else:
+            user_query =  db.session.query(Users).filter(Users.alias == user).first()
+            session['username'] = user_query.alias
+            session['admin'] = False
             line_labels = labels
             line_values = values
             line_predictions = predictions
             line_max = maximum
             line_min = minimum
-            return render_template('index.html', pseudo=user, max=17000,\
+            return render_template('index.html', max=17000,\
                  labels=line_labels, values=line_values, predictions=line_predictions,\
                      maximum=line_max, minimum=line_min )
     else:
