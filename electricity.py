@@ -8,9 +8,9 @@ app = Flask(__name__)
 
 # Connection informations for SQL database
 # --- On Azure ---
-server = 'denko.database.windows.net'
-database = 'electricity_forecast'
-username = 'arnaud'
+server = os.environ['SERVER']
+database = os.environ['DB']
+username = os.environ['SUPERADMIN']
 password = os.environ['PWD']   
 driver= '{ODBC Driver 17 for SQL Server}'
 
