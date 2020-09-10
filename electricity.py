@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, session, redirect, url_for, flash
 from flask_sqlalchemy import SQLAlchemy
-import pypyodbc
+import pyodbc
 import urllib
 import os
 
