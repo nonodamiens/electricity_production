@@ -18,7 +18,7 @@ params = urllib.parse.quote_plus \
 (r'Driver='+driver+';Server=tcp:'+server+',1433;Database='+database+';Uid='+username+';Pwd='+password+';Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30;')
 
 # Setting the working env
-ENV = 'prod'
+ENV = 'dev'
 
 if ENV == 'dev':
     app.debug = True
@@ -122,6 +122,7 @@ def admin():
         if session['admin']:
             # Check request form
             if request.method == "POST":
+                # user creation
                 if request.form.get('data_type') == 'user_creation':
                     user = request.form['alias']
                     password = request.form['password']
@@ -130,10 +131,14 @@ def admin():
                     db.session.add(new_user)
                     db.session.commit()
                     return render_template('admin.html', response = 'New user inserted')
+                # csv db insert
+                elif request.form.get('data_type') == 'csv':
+                    print('csv db insert steps')
                 else:
                     return render_template('admin.html', error = 'An error occured, please retry')
             else:
                 return render_template('admin.html')
+    # no session login check
     elif request.method == "POST":
         if request.form.get('data_type') == 'login':
             user = request.form['alias']
