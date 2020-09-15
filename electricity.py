@@ -178,4 +178,7 @@ def adminlogout():
 
 if __name__ == '__main__':
     app.secret_key=os.environ['KEY']
-    app.run(host='0.0.0.0', port=80)
+    if ENV == 'dev':
+        app.run(host='0.0.0.0')
+    else:
+        app.run(host='0.0.0.0', port=80)
