@@ -134,7 +134,7 @@ def admin():
                 # csv db insert
                 elif request.form.get('data_type') == 'csv_file':
                     print('csv db insert steps')
-                    return render_template('admin.html', error = 'wrong file')
+                    return render_template('admin.html')
                 else:
                     return render_template('admin.html', error = 'An error occured, please retry')
             else:
