@@ -18,12 +18,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 RUN pip install --no-cache-dir -r requirements.txt
 
-ENV SERVER=<host_name>
-ENV DB=<db_name>
-ENV SUPERADMIN=<superadmin_name>
-ENV PWD=<password>
-ENV KEY=<key_value>
-
 RUN pip install --no-cache-dir -r requirements.txt
 
 ENTRYPOINT [ "python" ]
