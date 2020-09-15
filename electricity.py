@@ -64,13 +64,13 @@ class Electric_prod_fr_raw(db.Model):
     start_date = db.Column(db.DateTime)
     end_date = db.Column(db.DateTime)
     production_type = db.Column(db.String(50))
-    values = db.Column(db.Unicode)
+    values_json = db.Column(db.Nvarchar)
 
-    def __init__(self, start_date, end_date, production_type, values):
+    def __init__(self, start_date, end_date, production_type, values_json):
         self.start_date = start_date
         self.end_date = end_date
         self.production_type = production_type
-        self.values = values
+        self.values_json = values_json
 
 labels = [
     '2020-01', '2020-02', '2020-03', '2020-04',
