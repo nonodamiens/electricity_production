@@ -132,8 +132,9 @@ def admin():
                     db.session.commit()
                     return render_template('admin.html', response = 'New user inserted')
                 # csv db insert
-                elif request.form.get('data_type') == 'csv':
+                elif request.form.get('data_type') == 'csv_file':
                     print('csv db insert steps')
+                    return render_template('admin.html', error = 'wrong file')
                 else:
                     return render_template('admin.html', error = 'An error occured, please retry')
             else:
