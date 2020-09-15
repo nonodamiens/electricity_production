@@ -59,6 +59,19 @@ class Electric_prod_fr(db.Model):
         self.sourcetype_id = sourcetype_id
         self.proproduction_mw = production_mw
 
+class Electric_prod_fr_raw(db.Model):
+    __tablename__ = 'electricity_production_france_raw'
+    start_date = db.Column(db.DateTime)
+    end_date = db.Column(db.DateTime)
+    production_type = db.Column(db.String(50))
+    values = db.Column(db.Unicode)
+
+    def __init__(self, start_date, end_date, production_type, values):
+        self.start_date = start_date
+        self.end_date = end_date
+        self.production_type = production_type
+        self.values = values
+
 labels = [
     '2020-01', '2020-02', '2020-03', '2020-04',
     '2020-05', '2020-06', '2020-07', '2020-08',
