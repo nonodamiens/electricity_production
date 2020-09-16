@@ -61,10 +61,10 @@ class Electric_prod_fr(db.Model):
 
 class Electric_prod_fr_raw(db.Model):
     __tablename__ = 'electricity_production_france_raw'
-    start_date = db.Column(db.DateTime)
+    start_date = db.Column(db.DateTime, primary_key=True)
     end_date = db.Column(db.DateTime)
     production_type = db.Column(db.String(50))
-    values_json = db.Column(db.Nvarchar)
+    values_json = db.Column(db.Unicode)
 
     def __init__(self, start_date, end_date, production_type, values_json):
         self.start_date = start_date
@@ -147,7 +147,10 @@ def admin():
                 # csv db insert
                 elif request.form.get('data_type') == 'csv_file':
                     print('csv db insert steps')
-                    return render_template('admin.html')
+                    return render_template('admin.html', message='csv insert (code to do)')
+                elif request.form.get('data_type') == 'update':
+                    print('update automatic db')
+                    return render_template('admin.html', message='db update (code to do)')
                 else:
                     return render_template('admin.html', error = 'An error occured, please retry')
             else:
