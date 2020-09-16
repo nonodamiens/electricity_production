@@ -25,11 +25,6 @@
         <div id="chart">
             <div id="myChart" height="300">
                 <p>Bloc de gestion de la data</p>
-                {% if message %}
-                    <div id="message">
-                        {{ message }}
-                    </div>
-                {% endif %}
                 <form action="admin" method="POST">
                     <input type="hidden" name="data_type" class="data_type" value="csv_file">
                     <input type="file" name="csv_file" class="csv_file">

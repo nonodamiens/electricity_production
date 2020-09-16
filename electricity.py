@@ -147,10 +147,12 @@ def admin():
                 # csv db insert
                 elif request.form.get('data_type') == 'csv_file':
                     print('csv db insert steps')
-                    return render_template('admin.html', message='csv insert (code to do)')
+                    flash("csv insert (code to do)")
+                    return render_template('admin.html')
                 elif request.form.get('data_type') == 'update':
                     print('update automatic db')
-                    return render_template('admin.html', message='db update (code to do)')
+                    flash("db update (code to do)")
+                    return render_template('admin.html')
                 else:
                     return render_template('admin.html', error = 'An error occured, please retry')
             else:
