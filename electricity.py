@@ -88,6 +88,7 @@ class Electric_prod_fr_raw_old(db.Model):
     bioenergy = db.Column(db.Integer)
     pump = db.Column(db.Integer)
     exchange = db.Column(db.Integer)
+    co2 = db.Column(db.Integer)
 
     def __init__(self, date, consumption, rte_forecast, petrol, coal, gas, nuclear, wind, solar, hydraulic, bioenergy, pump, exchange):
         self.date = date
@@ -103,6 +104,7 @@ class Electric_prod_fr_raw_old(db.Model):
         self.bioenergy = bioenergy
         self.pump = pump
         self.exchange = exchange
+        self.co2 = co2
 
 
 labels = [
