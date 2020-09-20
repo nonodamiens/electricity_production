@@ -90,19 +90,19 @@ class Electric_prod_fr_raw_old(db.Model):
     exchange = db.Column(db.Integer)
 
     def __init__(self, date, consumption, rte_forecast, petrol, coal, gas, nuclear, wind, solar, hydraulic, bioenergy, pump, exchange):
-    self.date = date
-    self.consumption = consumption
-    self.rte_forecast = rte_forecast
-    self.petrol = petrol
-    self.coal = coal
-    self.gas = gas
-    self.nuclear = nuclear
-    self.wind = wind
-    self.solar = solar
-    self.hydraulic = hydraulic
-    self.bioenergy = bioenergy
-    self.pump = pump
-    self.exchange = exchange
+        self.date = date
+        self.consumption = consumption
+        self.rte_forecast = rte_forecast
+        self.petrol = petrol
+        self.coal = coal
+        self.gas = gas
+        self.nuclear = nuclear
+        self.wind = wind
+        self.solar = solar
+        self.hydraulic = hydraulic
+        self.bioenergy = bioenergy
+        self.pump = pump
+        self.exchange = exchange
 
 
 labels = [
