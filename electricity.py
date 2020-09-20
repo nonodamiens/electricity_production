@@ -73,6 +73,36 @@ class Electric_prod_fr_raw(db.Model):
         self.production_type = production_type
         self.values_json = values_json
 
+class Electric_prod_fr_raw_old(db.Model):
+    __tablename__ = 'electricitiy_production_france_raw_old'
+    date = db.Column(db.Date, primary_key=True)
+    consumption = db.Column(db.Integer)
+    petrol = db.Column(db.Integer)
+    coal = db.Column(db.Integer)
+    gas = db.Column(db.Integer)
+    nuclear = db.Column(db.Integer)
+    wind = db.Column(db.Integer)
+    solar = db.Column(db.Integer)
+    hydraulic = db.Column(db.Integer)
+    bioenergy = db.Column(db.Integer)
+    pump = db.Column(db.Integer)
+    exchange = db.Column(db.Integer)
+
+    def __init__(self, date, consumption, petrol, coal, gas, nuclear, wind, solar, hydraulic, bioenergy, pump, exchange):
+    self.date = date
+    self.consumption = consumption
+    self.petrol = petrol
+    self.coal = coal
+    self.gas = gas
+    self.nuclear = nuclear
+    self.wind = wind
+    self.solar = solar
+    self.hydraulic = hydraulic
+    self.bioenergy = bioenergy
+    self.pump = pump
+    self.exchange = exchange
+
+
 labels = [
     '2020-01', '2020-02', '2020-03', '2020-04',
     '2020-05', '2020-06', '2020-07', '2020-08',
