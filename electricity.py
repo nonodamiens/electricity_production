@@ -3,6 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 import pyodbc
 import urllib
 import os
+from models import db_update
 
 app = Flask(__name__)
 
@@ -18,7 +19,7 @@ params = urllib.parse.quote_plus \
 (r'Driver='+driver+';Server=tcp:'+server+',1433;Database='+database+';Uid='+username+';Pwd='+password+';Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30;')
 
 # Setting the working env
-ENV = 'prod'
+ENV = 'dev'
 
 if ENV == 'dev':
     app.debug = True
@@ -151,7 +152,10 @@ def admin():
                     return render_template('admin.html')
                 elif request.form.get('data_type') == 'update':
                     print('update automatic db')
-                    flash("db update (code to do)")
+                    # Call the function
+                    response = db_update(sandbox=True)
+                    print(response)
+                    flash("db update (code to complete)")
                     return render_template('admin.html')
                 else:
                     return render_template('admin.html', error = 'An error occured, please retry')
