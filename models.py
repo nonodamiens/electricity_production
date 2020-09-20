@@ -23,7 +23,8 @@ def db_update(start_date=default_start_date, end_date=default_end_date, sandbox=
     - end_date = The ending date of datas
     - sandbox = To test the API, do not need period dates
     
-    The minimum period is one day"""
+    The minimum period is one day
+    The maximum period is 155 days"""
     
     # Get Token
     headers_token = {
