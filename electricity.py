@@ -60,7 +60,7 @@ class Electric_prod_fr(db.Model):
         self.sourcetype_id = sourcetype_id
         self.proproduction_mw = production_mw
 
-class Electric_prod_fr_raw(db.Model):
+class Electric_prod_fr_raw_old(db.Model):
     __tablename__ = 'electricity_production_france_raw'
     start_date = db.Column(db.DateTime, primary_key=True)
     end_date = db.Column(db.DateTime)
@@ -73,7 +73,7 @@ class Electric_prod_fr_raw(db.Model):
         self.production_type = production_type
         self.values_json = values_json
 
-class Electric_prod_fr_raw_old(db.Model):
+class Electric_prod_fr_raw(db.Model):
     __tablename__ = 'electricitiy_production_france_raw_old'
     id = db.Column(db.Int, primary_key=True)
     date = db.Column(db.Date)
