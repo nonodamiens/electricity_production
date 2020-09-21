@@ -75,7 +75,8 @@ class Electric_prod_fr_raw(db.Model):
 
 class Electric_prod_fr_raw_old(db.Model):
     __tablename__ = 'electricitiy_production_france_raw_old'
-    date = db.Column(db.Date, primary_key=True)
+    id = db.Column(db.Int, primary_key=True)
+    date = db.Column(db.Date)
     consumption = db.Column(db.Integer)
     rte_forecast = db.Column(db.Integer)
     petrol = db.Column(db.Integer)
@@ -90,7 +91,8 @@ class Electric_prod_fr_raw_old(db.Model):
     exchange = db.Column(db.Integer)
     co2 = db.Column(db.Integer)
 
-    def __init__(self, date, consumption, rte_forecast, petrol, coal, gas, nuclear, wind, solar, hydraulic, bioenergy, pump, exchange):
+    def __init__(self, id, date, consumption, rte_forecast, petrol, coal, gas, nuclear, wind, solar, hydraulic, bioenergy, pump, exchange):
+        self.id = id
         self.date = date
         self.consumption = consumption
         self.rte_forecast = rte_forecast
