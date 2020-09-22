@@ -3,7 +3,6 @@ from flask_sqlalchemy import SQLAlchemy
 import pyodbc
 import urllib
 import os
-import pandas as pd
 from models import db_update, csv_upload
 
 app = Flask(__name__)

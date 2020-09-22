@@ -2,6 +2,7 @@ import requests
 import os
 import json
 import datetime
+import pandas as pd
 
 # set the start and end default date data selection
 # For the default ending date takes the month before the actual date  
