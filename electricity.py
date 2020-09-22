@@ -4,6 +4,7 @@ import pyodbc
 import urllib
 import os
 from models import db_update, csv_upload
+from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
 
@@ -183,13 +184,26 @@ def admin():
                     return render_template('admin.html', response = 'New user inserted')
                 # csv db insert
                 elif request.form.get('data_type') == 'csv_file':
-                    print('csv db insert steps')
-                    error, response = csv_upload('./csv_files/test.csv')
-                    if error:
-                        flash(response)
+                    print('CSV FILE STARTING IF STATEMENTS')
+                    if 'file' not in request.files:
+                        print('NO FILE')
+                        flash('no files uploaded')
                     else:
-                        print(db.session.query(Electric_prod_fr_raw).count())
-                    return render_template('admin.html')
+                        print('HANDLING FILENAME')
+                        file = request.files['file']
+                        if file.filename =='':
+                            print('NO FILENAME')
+                            flash('no selected file')
+                        elif file and '.' in file.filename and file.filename.rsplit('.', 1)[1].lower() == 'csv':
+                            filename = secure_filename(file.filename)
+                            print(filename)
+                            print('csv db insert steps')
+                            error, response = csv_upload(file)
+                            if error:
+                                flash(response)
+                            else:
+                                print(db.session.query(Electric_prod_fr_raw).count())
+                            return render_template('admin.html')
                 elif request.form.get('data_type') == 'update':
                     print('update automatic db')
                     # Call the function
