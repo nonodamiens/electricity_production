@@ -203,9 +203,35 @@ def admin():
                                 flash(response)
                             else:
                                 # Dataframe browsing and database updating
+                                nb_updates = 0
+                                nb_insert = 0
                                 for label, row in response.iterrows():
-                                    print(label)
-                                    print(db.session.query(Electric_prod_fr_raw).filter(Electric_prod_fr_raw.date == label).count())
+                                    if db.session.query(Electric_prod_fr_raw).filter(Electric_prod_fr_raw.date == label).count() >= 1:
+                                        db.session.query(Electric_prod_fr_raw).filter(Electric_prod_fr_raw.date == label).update(
+                                            {
+                                                Electric_prod_fr_raw.consumption: row['Consommation'],
+                                                Electric_prod_fr_raw.rte_forecast: row['Prévision J'],
+                                                Electric_prod_fr_raw.petrol: row['Fioul'],
+                                                Electric_prod_fr_raw.coal: row['Charbon'],
+                                                Electric_prod_fr_raw.gas: row['Gaz'],
+                                                Electric_prod_fr_raw.nuclear: row['Nucléaire'],
+                                                Electric_prod_fr_raw.wind: row['Eolien'],
+                                                Electric_prod_fr_raw.solar: row['Solaire'],
+                                                Electric_prod_fr_raw.hydraulic: row['Hydraulique'],
+                                                Electric_prod_fr_raw.bioenergy: row['Bioénergies'],
+                                                Electric_prod_fr_raw.pump: row['Pompage'],
+                                                Electric_prod_fr_raw.exchange: row['Ech. physiques'],
+                                                Electric_prod_fr_raw.co2: row['Taux de Co2']
+                                            }
+                                        )
+                                        db.session.commit()
+                                        print('The database row', label, 'has been updated')
+                                        nb_updates += 1
+                                    else:
+                                        print('db insert')
+                                        nb_insert += 1
+                                print(nb_updates, 'rows of database have been updated')
+                                print(nb_insert, 'rows of database have been inserted')
                             return render_template('admin.html')
                 # Database update
                 elif request.form.get('data_type') == 'update':
