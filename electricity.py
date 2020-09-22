@@ -3,7 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 import pyodbc
 import urllib
 import os
-from models import db_update
+from models import db_update, csv_upload
 
 app = Flask(__name__)
 
@@ -61,7 +61,7 @@ class Electric_prod_fr(db.Model):
         self.proproduction_mw = production_mw
 
 class Electric_prod_fr_raw_old(db.Model):
-    __tablename__ = 'electricity_production_france_raw'
+    __tablename__ = 'electricity_production_france_raw_old'
     start_date = db.Column(db.DateTime, primary_key=True)
     end_date = db.Column(db.DateTime)
     production_type = db.Column(db.String(50))
@@ -74,8 +74,8 @@ class Electric_prod_fr_raw_old(db.Model):
         self.values_json = values_json
 
 class Electric_prod_fr_raw(db.Model):
-    __tablename__ = 'electricitiy_production_france_raw_old'
-    id = db.Column(db.Int, primary_key=True)
+    __tablename__ = 'electricity_production_france_raw'
+    id = db.Column(db.Integer, primary_key=True)
     date = db.Column(db.Date)
     consumption = db.Column(db.Integer)
     rte_forecast = db.Column(db.Integer)
@@ -184,6 +184,8 @@ def admin():
                 # csv db insert
                 elif request.form.get('data_type') == 'csv_file':
                     print('csv db insert steps')
+                    print(csv_upload('./csv_files/test.csv'))
+                    print(db.session.query(Electric_prod_fr_raw).count())
                     flash("csv insert (code to do)")
                     return render_template('admin.html')
                 elif request.form.get('data_type') == 'update':
