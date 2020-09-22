@@ -92,8 +92,7 @@ class Electric_prod_fr_raw(db.Model):
     exchange = db.Column(db.Integer)
     co2 = db.Column(db.Integer)
 
-    def __init__(self, id, date, consumption, rte_forecast, petrol, coal, gas, nuclear, wind, solar, hydraulic, bioenergy, pump, exchange):
-        self.id = id
+    def __init__(self, date, consumption, rte_forecast, petrol, coal, gas, nuclear, wind, solar, hydraulic, bioenergy, pump, exchange, co2):
         self.date = date
         self.consumption = consumption
         self.rte_forecast = rte_forecast
@@ -184,19 +183,14 @@ def admin():
                     return render_template('admin.html', response = 'New user inserted')
                 # csv db insert
                 elif request.form.get('data_type') == 'csv_file':
-                    print('CSV FILE STARTING IF STATEMENTS')
                     if 'file' not in request.files:
-                        print('NO FILE')
                         flash('no files uploaded')
                     else:
-                        print('HANDLING FILENAME')
                         file = request.files['file']
                         if file.filename =='':
-                            print('NO FILENAME')
                             flash('no selected file')
                         elif file and '.' in file.filename and file.filename.rsplit('.', 1)[1].lower() == 'csv':
                             filename = secure_filename(file.filename)
-                            print(filename)
                             print('csv db insert steps')
                             error, response = csv_upload(file)
                             if error:
@@ -228,7 +222,25 @@ def admin():
                                         print('The database row', label, 'has been updated')
                                         nb_updates += 1
                                     else:
-                                        print('db insert')
+                                        new_data = Electric_prod_fr_raw(
+                                                date = label,
+                                                consumption = row['Consommation'],
+                                                rte_forecast = row['Prévision J'],
+                                                petrol = row['Fioul'],
+                                                coal = row['Charbon'],
+                                                gas = row['Gaz'],
+                                                nuclear = row['Nucléaire'],
+                                                wind = row['Eolien'],
+                                                solar = row['Solaire'],
+                                                hydraulic = row['Hydraulique'],
+                                                bioenergy = row['Bioénergies'],
+                                                pump = row['Pompage'],
+                                                exchange = row['Ech. physiques'],
+                                                co2 = row['Taux de Co2']
+                                        )
+                                        db.session.add(new_data)
+                                        db.session.commit()
+                                        print('The database row', label, 'has been updated')
                                         nb_insert += 1
                                 print(nb_updates, 'rows of database have been updated')
                                 print(nb_insert, 'rows of database have been inserted')
