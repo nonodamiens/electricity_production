@@ -202,8 +202,12 @@ def admin():
                             if error:
                                 flash(response)
                             else:
+                                # Dataframe browsing and database updating
+                                for label, row in response.iterrows():
+                                    print(label, row)
                                 print(db.session.query(Electric_prod_fr_raw).count())
                             return render_template('admin.html')
+                # Database update
                 elif request.form.get('data_type') == 'update':
                     print('update automatic db')
                     # Call the function
