@@ -1,0 +1,25 @@
+Périmètre;Nature;Date;Heures;Consommation;Prévision J-1;Prévision J;Fioul;Charbon;Gaz;Nucléaire;Eolien;Solaire;Hydraulique;Pompage;Bioénergies;Ech. physiques;Taux de Co2;Ech. comm. Angleterre;Ech. comm. Espagne;Ech. comm. Italie;Ech. comm. Suisse;Ech. comm. Allemagne-Belgique;Fioul - TAC;Fioul - Cogén.;Fioul - Autres;Gaz - TAC;Gaz - Cogén.;Gaz - CCG;Gaz - Autres;Hydraulique - Fil de l?eau + éclusée;Hydraulique - Lacs;Hydraulique - STEP turbinage;Bioénergies - Déchets;Bioénergies - Biomasse;Bioénergies - Biogaz
+France;Données définitives;01/01/2012;00:00;58315;58200;58200;492;25;3816;52697;3588;0;7922;-1139;719;-9806;33;-1750;-1200;-862;-2625;-2940;ND;ND;ND;ND;ND;ND;ND;ND;ND;ND;ND;ND;ND
+France;Données définitives;01/01/2012;00:15;;57700;57550;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+France;Données définitives;01/01/2012;00:30;58315;57200;56900;492;25;3816;52697;3588;0;7922;-1139;719;-9806;33;-1750;-1200;-862;-2625;-2940;ND;ND;ND;ND;ND;ND;ND;ND;ND;ND;ND;ND;ND
+France;Données définitives;01/01/2012;00:45;;56200;56000;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+France;Données définitives;01/01/2012;01:00;56231;55200;55100;492;25;3834;51747;3536;0;7598;-1730;721;-9993;34;-1750;-1400;-862;-2625;-2714;ND;ND;ND;ND;ND;ND;ND;ND;ND;ND;ND;ND;ND
+France;Données définitives;01/01/2012;01:15;;55600;55250;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+France;Données définitives;01/01/2012;01:30;56075;56000;55400;491;25;3832;51950;3526;0;7299;-2134;722;-9636;35;-1750;-1400;-862;-2625;-2714;ND;ND;ND;ND;ND;ND;ND;ND;ND;ND;ND;ND;ND
+France;Données définitives;01/01/2012;01:45;;56000;55200;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+France;Données définitives;01/01/2012;02:00;55532;56000;55000;492;25;3839;51625;3535;0;7159;-2449;719;-9412;35;-1750;-1400;-862;-2327;-1088;ND;ND;ND;ND;ND;ND;ND;ND;ND;ND;ND;ND;ND
+France;Données définitives;01/01/2012;02:15;;55750;54300;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+France;Données définitives;01/01/2012;02:30;54911;55500;53600;492;26;3836;49917;3572;0;6772;-2486;720;-7938;36;-1750;-1400;-862;-2327;-1088;ND;ND;ND;ND;ND;ND;ND;ND;ND;ND;ND;ND;ND
+France;Données définitives;01/01/2012;02:45;;53950;52350;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+France;Données définitives;01/01/2012;03:00;52496;52400;51100;494;25;3836;47811;3616;0;6507;-2685;720;-7827;38;-1750;-1400;-862;-2125;-2038;ND;ND;ND;ND;ND;ND;ND;ND;ND;ND;ND;ND;ND
+France;Données définitives;01/01/2012;03:15;;51600;50150;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+France;Données définitives;01/01/2012;03:30;50664;50800;49200;491;24;3818;46306;3628;0;6460;-2495;726;-8295;39;-1750;-1400;-862;-2125;-2038;ND;ND;ND;ND;ND;ND;ND;ND;ND;ND;ND;ND;ND
+France;Données définitives;01/01/2012;03:45;;49950;48400;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+France;Données définitives;01/01/2012;04:00;49161;49100;47600;492;24;3824;44378;3648;0;6559;-2490;720;-7993;40;-1750;-1400;-862;-2125;-1967;ND;ND;ND;ND;ND;ND;ND;ND;ND;ND;ND;ND;ND
+France;Données définitives;01/01/2012;04:15;;48450;47000;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+France;Données définitives;01/01/2012;04:30;47596;47800;46400;492;24;3822;42483;3575;0;6471;-2188;721;-7803;41;-1750;-1400;-862;-2125;-1967;ND;ND;ND;ND;ND;ND;ND;ND;ND;ND;ND;ND;ND
+France;Données définitives;01/01/2012;04:45;;47250;46050;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+France;Données définitives;01/01/2012;05:00;46656;46700;45700;492;23;3810;41927;3548;0;6498;-2399;713;-7957;41;-1750;-1400;-862;-2125;-584;ND;ND;ND;ND;ND;ND;ND;ND;ND;ND;ND;ND;ND
+France;Données définitives;01/01/2012;05:15;;46600;45450;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+France;Données définitives;01/01/2012;05:30;46277;46500;45200;492;24;3825;40991;3517;0;6407;-2868;708;-6818;43;-1750;-1400;-862;-2125;-584;ND;ND;ND;ND;ND;ND;ND;ND;ND;ND;ND;ND;ND
+France;Données définitives;01/01/2012;05:45;;46150;45000;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

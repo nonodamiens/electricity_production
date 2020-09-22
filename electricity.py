@@ -184,9 +184,11 @@ def admin():
                 # csv db insert
                 elif request.form.get('data_type') == 'csv_file':
                     print('csv db insert steps')
-                    print(csv_upload('./csv_files/test.csv'))
-                    print(db.session.query(Electric_prod_fr_raw).count())
-                    flash("csv insert (code to do)")
+                    error, response = csv_upload('./csv_files/test.csv')
+                    if error:
+                        flash(response)
+                    else:
+                        print(db.session.query(Electric_prod_fr_raw).count())
                     return render_template('admin.html')
                 elif request.form.get('data_type') == 'update':
                     print('update automatic db')

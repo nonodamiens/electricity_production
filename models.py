@@ -65,9 +65,13 @@ def csv_upload(csv_file):
     arguments:
     - csv_file: links to the file (string)
     '''
+    try:
+        dataframe = pd.read_csv(csv_file, sep=';')
+    except:
+        error = True
+        response = 'File error, Make sure it is a CSV file'
+        return (error, response)
 
-    dataframe = pd.read_csv(csv_file, sep=';')
-    
     dataframe_columns_list = dataframe.columns.tolist()
     mandatory_columns_list = ['Consommation', 'Prévision J', 'Fioul',\
          'Charbon', 'Gaz', 'Nucléaire', 'Eolien', 'Solaire', 'Hydraulique',\
@@ -76,12 +80,17 @@ def csv_upload(csv_file):
     # Validity check
     for column_name in mandatory_columns_list:
         if column_name not in dataframe_columns_list:
-            return 'error, csv file not conform to database'
-    
-    dataframe_by_day = dataframe.groupby('Date').sum()
-    dataframe_by_day = dataframe_by_day[mandatory_columns_list]
-
-    return dataframe_by_day
+            error = True
+            response = 'error, csv file not conform to spécifications'
+            
+            return (error, response)
+        else:
+            error = False
+            dataframe_by_day = dataframe.groupby('Date').sum()
+            dataframe_by_day = dataframe_by_day[mandatory_columns_list]
+            response = dataframe_by_day
+            
+            return (error, response)        
 
 # Testing line decomment to execute
 # print(csv_upload('./csv_files/test.csv'))
