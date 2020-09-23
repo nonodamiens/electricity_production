@@ -20,7 +20,7 @@ params = urllib.parse.quote_plus \
 (r'Driver='+driver+';Server=tcp:'+server+',1433;Database='+database+';Uid='+username+';Pwd='+password+';Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30;')
 
 # Setting the working env
-ENV = 'dev'
+ENV = 'prod'
 
 if ENV == 'dev':
     app.debug = True
@@ -190,7 +190,6 @@ def admin():
                         if file.filename =='':
                             flash('no selected file')
                         elif file and '.' in file.filename and file.filename.rsplit('.', 1)[1].lower() == 'csv':
-                            filename = secure_filename(file.filename)
                             print('csv db insert steps')
                             error, response = csv_upload(file)
                             if error:
