@@ -5,6 +5,7 @@ import urllib
 import os
 from models import db_update, csv_upload
 from werkzeug.utils import secure_filename
+import time
 
 app = Flask(__name__)
 
@@ -168,13 +169,10 @@ def index():
 def admin():
     # Session check
     if 'username' in session:
-        print('username in session')
         # Check admin level rights
         if session['admin']:
-            print('session admin')
             # Check request form
             if request.method == "POST":
-                print(request.form.get('data_type'))
                 # user creation
                 if request.form.get('data_type') == 'user_creation':
                     # check fields
@@ -227,7 +225,7 @@ def admin():
                                                 }
                                             )
                                             db.session.commit()
-                                            yield 'The database row' + str(label) + 'has been updated'
+                                            yield 'The database row ' + str(label) + ' has been updated<br/>\n'
                                             nb_updates += 1
                                         else:
                                             new_data = Electric_prod_fr_raw(
@@ -248,8 +246,9 @@ def admin():
                                             )
                                             db.session.add(new_data)
                                             db.session.commit()
-                                            yield 'The database row' + str(label) + 'has been updated'
+                                            yield 'The database row ' + str(label) + ' has been updated<br/>\n'
                                             nb_insert += 1
+                                    time.sleep(4)
                                     yield '<script>document.location.href="admin"</script>'
                                 return Response(inner())
                                 print(nb_updates, 'rows of database have been updated')
