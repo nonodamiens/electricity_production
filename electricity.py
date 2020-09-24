@@ -5,6 +5,7 @@ import urllib
 import os
 from models import db_update, csv_upload
 from werkzeug.utils import secure_filename
+from werkzeug.security import generate_password_hash, check_password_hash
 import time
 
 app = Flask(__name__)
@@ -42,7 +43,7 @@ class Users(db.Model):
     __tablename__ = 'Users'
     id = db.Column(db.Integer, primary_key=True)
     alias = db.Column(db.String(25))
-    password = db.Column(db.String(50))
+    password = db.Column(db.String(100))
     administrator = db.Column(db.Boolean)
 
     def __init__(self, alias, password, administrator):
@@ -146,10 +147,9 @@ def index():
     if request.method == "POST":
         user = request.form['alias']
         password = request.form['password']
-        if db.session.query(Users).filter(Users.alias == user).count() == 0 or\
-             db.session.query(Users).filter(Users.password == password).count() == 0:
-            return render_template('index.html', error = 'Non autorisé')
-        else:
+        user_db = db.session.query(Users).filter(Users.alias == user).first()
+        if db.session.query(Users).filter(Users.alias == user).count() == 1 and \
+             check_password_hash(user_db.password, password):
             user_query =  db.session.query(Users).filter(Users.alias == user).first()
             session['username'] = user_query.alias
             session['admin'] = False
@@ -161,6 +161,8 @@ def index():
             return render_template('index.html', max=17000,\
                  labels=line_labels, values=line_values, predictions=line_predictions,\
                      maximum=line_max, minimum=line_min )
+        else:
+            return render_template('index.html', error = 'Non autorisé')
     else:
         return render_template('index.html')
 
@@ -178,7 +180,7 @@ def admin():
                     # check fields
                     if 'account_type' in request.form and 'alias' in request.form and 'password' in request.form:
                         user = request.form['alias']
-                        password = request.form['password']
+                        password = generate_password_hash(request.form['password'], method='sha256')
                         admin = bool(int(request.form['account_type']))
                         new_user = Users(alias=user, password=password, administrator=admin)
                         db.session.add(new_user)
@@ -271,8 +273,9 @@ def admin():
         if request.form.get('data_type') == 'login':
             user = request.form['alias']
             password = request.form['password']
+            user_db = db.session.query(Users).filter(Users.alias == user).first()
             if db.session.query(Users).filter(Users.alias == user).count() != 1 or\
-                db.session.query(Users).filter(Users.password == password).count() != 1:
+                check_password_hash(user_db.password, password):
                 return render_template('admin.html', error = 'Wrong login or password')
             else:
                 query =  db.session.query(Users).filter(Users.alias == user).first()
