@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, session, redirect, url_for, flash
+from flask import Flask, render_template, request, session, redirect, url_for, flash, Response
 from flask_sqlalchemy import SQLAlchemy
 import pyodbc
 import urllib
@@ -20,7 +20,7 @@ params = urllib.parse.quote_plus \
 (r'Driver='+driver+';Server=tcp:'+server+',1433;Database='+database+';Uid='+username+';Pwd='+password+';Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30;')
 
 # Setting the working env
-ENV = 'prod'
+ENV = 'dev'
 
 if ENV == 'dev':
     app.debug = True
@@ -168,19 +168,27 @@ def index():
 def admin():
     # Session check
     if 'username' in session:
+        print('username in session')
         # Check admin level rights
         if session['admin']:
+            print('session admin')
             # Check request form
             if request.method == "POST":
+                print(request.form.get('data_type'))
                 # user creation
                 if request.form.get('data_type') == 'user_creation':
-                    user = request.form['alias']
-                    password = request.form['password']
-                    admin = bool(int(request.form['account_type']))
-                    new_user = Users(alias=user, password=password, administrator=admin)
-                    db.session.add(new_user)
-                    db.session.commit()
-                    return render_template('admin.html', response = 'New user inserted')
+                    # check fields
+                    if 'account_type' in request.form and 'alias' in request.form and 'password' in request.form:
+                        user = request.form['alias']
+                        password = request.form['password']
+                        admin = bool(int(request.form['account_type']))
+                        new_user = Users(alias=user, password=password, administrator=admin)
+                        db.session.add(new_user)
+                        db.session.commit()
+                        return render_template('admin.html', response = 'New user inserted')
+                    else:
+                        flash('Il manque des informations')
+                        return render_template('admin.html')
                 # csv db insert
                 elif request.form.get('data_type') == 'csv_file':
                     if 'file' not in request.files:
@@ -196,51 +204,54 @@ def admin():
                                 flash(response)
                             else:
                                 # Dataframe browsing and database updating
-                                nb_updates = 0
-                                nb_insert = 0
-                                for label, row in response.iterrows():
-                                    if db.session.query(Electric_prod_fr_raw).filter(Electric_prod_fr_raw.date == label).count() >= 1:
-                                        db.session.query(Electric_prod_fr_raw).filter(Electric_prod_fr_raw.date == label).update(
-                                            {
-                                                Electric_prod_fr_raw.consumption: row['Consommation'],
-                                                Electric_prod_fr_raw.rte_forecast: row['Prévision J'],
-                                                Electric_prod_fr_raw.petrol: row['Fioul'],
-                                                Electric_prod_fr_raw.coal: row['Charbon'],
-                                                Electric_prod_fr_raw.gas: row['Gaz'],
-                                                Electric_prod_fr_raw.nuclear: row['Nucléaire'],
-                                                Electric_prod_fr_raw.wind: row['Eolien'],
-                                                Electric_prod_fr_raw.solar: row['Solaire'],
-                                                Electric_prod_fr_raw.hydraulic: row['Hydraulique'],
-                                                Electric_prod_fr_raw.bioenergy: row['Bioénergies'],
-                                                Electric_prod_fr_raw.pump: row['Pompage'],
-                                                Electric_prod_fr_raw.exchange: row['Ech. physiques'],
-                                                Electric_prod_fr_raw.co2: row['Taux de Co2']
-                                            }
-                                        )
-                                        db.session.commit()
-                                        print('The database row', label, 'has been updated')
-                                        nb_updates += 1
-                                    else:
-                                        new_data = Electric_prod_fr_raw(
-                                                date = label,
-                                                consumption = row['Consommation'],
-                                                rte_forecast = row['Prévision J'],
-                                                petrol = row['Fioul'],
-                                                coal = row['Charbon'],
-                                                gas = row['Gaz'],
-                                                nuclear = row['Nucléaire'],
-                                                wind = row['Eolien'],
-                                                solar = row['Solaire'],
-                                                hydraulic = row['Hydraulique'],
-                                                bioenergy = row['Bioénergies'],
-                                                pump = row['Pompage'],
-                                                exchange = row['Ech. physiques'],
-                                                co2 = row['Taux de Co2']
-                                        )
-                                        db.session.add(new_data)
-                                        db.session.commit()
-                                        print('The database row', label, 'has been updated')
-                                        nb_insert += 1
+                                def inner():
+                                    nb_updates = 0
+                                    nb_insert = 0
+                                    for label, row in response.iterrows():
+                                        if db.session.query(Electric_prod_fr_raw).filter(Electric_prod_fr_raw.date == label).count() >= 1:
+                                            db.session.query(Electric_prod_fr_raw).filter(Electric_prod_fr_raw.date == label).update(
+                                                {
+                                                    Electric_prod_fr_raw.consumption: row['Consommation'],
+                                                    Electric_prod_fr_raw.rte_forecast: row['Prévision J'],
+                                                    Electric_prod_fr_raw.petrol: row['Fioul'],
+                                                    Electric_prod_fr_raw.coal: row['Charbon'],
+                                                    Electric_prod_fr_raw.gas: row['Gaz'],
+                                                    Electric_prod_fr_raw.nuclear: row['Nucléaire'],
+                                                    Electric_prod_fr_raw.wind: row['Eolien'],
+                                                    Electric_prod_fr_raw.solar: row['Solaire'],
+                                                    Electric_prod_fr_raw.hydraulic: row['Hydraulique'],
+                                                    Electric_prod_fr_raw.bioenergy: row['Bioénergies'],
+                                                    Electric_prod_fr_raw.pump: row['Pompage'],
+                                                    Electric_prod_fr_raw.exchange: row['Ech. physiques'],
+                                                    Electric_prod_fr_raw.co2: row['Taux de Co2']
+                                                }
+                                            )
+                                            db.session.commit()
+                                            yield 'The database row' + str(label) + 'has been updated'
+                                            nb_updates += 1
+                                        else:
+                                            new_data = Electric_prod_fr_raw(
+                                                    date = label,
+                                                    consumption = row['Consommation'],
+                                                    rte_forecast = row['Prévision J'],
+                                                    petrol = row['Fioul'],
+                                                    coal = row['Charbon'],
+                                                    gas = row['Gaz'],
+                                                    nuclear = row['Nucléaire'],
+                                                    wind = row['Eolien'],
+                                                    solar = row['Solaire'],
+                                                    hydraulic = row['Hydraulique'],
+                                                    bioenergy = row['Bioénergies'],
+                                                    pump = row['Pompage'],
+                                                    exchange = row['Ech. physiques'],
+                                                    co2 = row['Taux de Co2']
+                                            )
+                                            db.session.add(new_data)
+                                            db.session.commit()
+                                            yield 'The database row' + str(label) + 'has been updated'
+                                            nb_insert += 1
+                                    yield '<script>document.location.href="admin"</script>'
+                                return Response(inner())
                                 print(nb_updates, 'rows of database have been updated')
                                 print(nb_insert, 'rows of database have been inserted')
                             return render_template('admin.html')
