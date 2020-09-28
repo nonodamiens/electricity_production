@@ -258,10 +258,10 @@ def admin():
                                             yield 'The database row ' + str(label) + ' has been updated<br/>\n'
                                             nb_insert += 1
                                     time.sleep(4)
+                                    yield nb_updates + 'rows of database have been updated<br/>\n'
+                                    yield nb_insert + 'rows of database have been inserted<br/>\n'
                                     yield '<script>document.location.href="admin"</script>'
                                 return Response(inner())
-                                print(nb_updates, 'rows of database have been updated')
-                                print(nb_insert, 'rows of database have been inserted')
                             return render_template('admin.html')
                 # Database update
                 elif request.form.get('data_type') == 'update':
