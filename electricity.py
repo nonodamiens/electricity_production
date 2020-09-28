@@ -63,18 +63,25 @@ class Electric_prod_fr(db.Model):
         self.sourcetype_id = sourcetype_id
         self.proproduction_mw = production_mw
 
-class Electric_prod_fr_raw_old(db.Model):
-    __tablename__ = 'electricity_production_france_raw_old'
-    start_date = db.Column(db.DateTime, primary_key=True)
-    end_date = db.Column(db.DateTime)
-    production_type = db.Column(db.String(50))
-    values_json = db.Column(db.Unicode)
+class Electric_source_type(db.Model):
+    __tablename__ = 'electricity_source_type'
+    source_id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(25))
+    category_type = db.Column(db.String(25))
 
-    def __init__(self, start_date, end_date, production_type, values_json):
-        self.start_date = start_date
-        self.end_date = end_date
-        self.production_type = production_type
-        self.values_json = values_json
+    def __init__(self, source_id, name, category_type):
+        self.source_id = source_id
+        self.name = name
+        self.category_type = category_type
+
+class Electric_source_type_category(db.Model):
+    __tablename__ = 'electricity_source_type_category'
+    category_id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(25))
+
+    def __init__(self, category_id, name):
+        self.category_id = category_id
+        self.name = name
 
 class Electric_prod_fr_raw(db.Model):
     __tablename__ = 'electricity_production_france_raw'
