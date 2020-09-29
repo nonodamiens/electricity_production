@@ -288,9 +288,9 @@ def admin():
                                             db.session.commit()
                                             yield 'The database row ' + str(label) + ' has been updated<br/>\n'
                                             nb_insert += 1
-                                    time.sleep(4)
                                     yield str(nb_updates) + 'rows of database have been updated<br/>\n'
                                     yield str(nb_insert) + 'rows of database have been inserted<br/>\n'
+                                    time.sleep(4)
                                     yield '<script>document.location.href="admin"</script>'
                                 return Response(inner())
                             return render_template('admin.html')
