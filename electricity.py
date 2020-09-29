@@ -53,6 +53,7 @@ class Users(db.Model):
 
 class Electric_prod_fr(db.Model):
     __tablename__ = 'electricity_production_france'
+    id = db.Column(db.Integer, primary_key=True)
     date = db.Column(db.Date)
     sourcetype_id = db.Column(db.Integer)
     production_mw = db.Column(db.Integer)
@@ -159,6 +160,8 @@ def index():
             user_query =  db.session.query(Users).filter(Users.alias == user).first()
             session['username'] = user_query.alias
             session['admin'] = False
+            # get data
+
             line_labels = labels
             line_values = values
             line_predictions = predictions
