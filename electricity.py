@@ -52,7 +52,7 @@ class Users(db.Model):
         self.administrator = administrator
 
 class Electric_prod_fr(db.Model):
-    __tablename__ = 'electricity_production_france'
+    __tablename__ = 'electricity_production_fr'
     id = db.Column(db.Integer, primary_key=True)
     date = db.Column(db.Date)
     sourcetype_id = db.Column(db.Integer)
@@ -289,8 +289,8 @@ def admin():
                                             yield 'The database row ' + str(label) + ' has been updated<br/>\n'
                                             nb_insert += 1
                                     time.sleep(4)
-                                    yield nb_updates + 'rows of database have been updated<br/>\n'
-                                    yield nb_insert + 'rows of database have been inserted<br/>\n'
+                                    yield str(nb_updates) + 'rows of database have been updated<br/>\n'
+                                    yield str(nb_insert) + 'rows of database have been inserted<br/>\n'
                                     yield '<script>document.location.href="admin"</script>'
                                 return Response(inner())
                             return render_template('admin.html')
