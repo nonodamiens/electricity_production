@@ -202,15 +202,18 @@ def admin():
                 elif request.form.get('data_type') == 'csv_file':
                     if 'file' not in request.files:
                         flash('no files uploaded')
+                        return render_template('admin.html')
                     else:
                         file = request.files['file']
                         if file.filename =='':
                             flash('no selected file')
+                            return render_template('admin.html')
                         elif file and '.' in file.filename and file.filename.rsplit('.', 1)[1].lower() == 'csv':
                             print('csv db insert steps')
                             error, response = csv_upload(file)
                             if error:
                                 flash(response)
+                                return render_template('admin.html')
                             else:
                                 # Dataframe browsing and database updating
                                 def inner():
@@ -277,6 +280,12 @@ def admin():
                     return render_template('admin.html', error = 'An error occured, please retry')
             else:
                 return render_template('admin.html')
+        else:
+            # Wrong session
+            if 'username' in session:
+                session.pop('username', None)
+                session.pop('admin', None)
+            return redirect(url_for('admin'))
     # no session login check
     elif request.method == "POST":
         if request.form.get('data_type') == 'login':
@@ -288,7 +297,6 @@ def admin():
                 return render_template('admin.html', error = 'Wrong login or password')
             else:
                 query =  db.session.query(Users).filter(Users.alias == user).first()
-                
                 if query.administrator:
                     session['username'] = query.alias
                     session['admin'] = True
