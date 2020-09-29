@@ -239,14 +239,14 @@ def admin():
                                                 }
                                             )
                                             if db.session.query(Electric_prod_fr).filter(Electric_prod_fr.date == label).count() >= 1:
-                                                db.session.query(Electric_prod_fr).filter(Electric_prod_fr.date == label and Electric_prod_fr.sourcetype_id = 1).update( { production_mw: row['Nucléaire']} )
-                                                db.session.query(Electric_prod_fr).filter(Electric_prod_fr.date == label and Electric_prod_fr.sourcetype_id = 2).update( { production_mw: row['Gaz']} )
-                                                db.session.query(Electric_prod_fr).filter(Electric_prod_fr.date == label and Electric_prod_fr.sourcetype_id = 3).update( { production_mw: row['Charbon']} )
-                                                db.session.query(Electric_prod_fr).filter(Electric_prod_fr.date == label and Electric_prod_fr.sourcetype_id = 4).update( { production_mw: row['Fioul']} )
-                                                db.session.query(Electric_prod_fr).filter(Electric_prod_fr.date == label and Electric_prod_fr.sourcetype_id = 5).update( { production_mw: row['Hydraulique']} )
-                                                db.session.query(Electric_prod_fr).filter(Electric_prod_fr.date == label and Electric_prod_fr.sourcetype_id = 6).update( { production_mw: row['Eolien']} )
-                                                db.session.query(Electric_prod_fr).filter(Electric_prod_fr.date == label and Electric_prod_fr.sourcetype_id = 7).update( { production_mw: row['Solaire']} )
-                                                db.session.query(Electric_prod_fr).filter(Electric_prod_fr.date == label and Electric_prod_fr.sourcetype_id = 8).update( { production_mw: row['Bioénergies']} )
+                                                db.session.query(Electric_prod_fr).filter(Electric_prod_fr.date == label and Electric_prod_fr.sourcetype_id == 1).update( { production_mw: row['Nucléaire']} )
+                                                db.session.query(Electric_prod_fr).filter(Electric_prod_fr.date == label and Electric_prod_fr.sourcetype_id == 2).update( { production_mw: row['Gaz']} )
+                                                db.session.query(Electric_prod_fr).filter(Electric_prod_fr.date == label and Electric_prod_fr.sourcetype_id == 3).update( { production_mw: row['Charbon']} )
+                                                db.session.query(Electric_prod_fr).filter(Electric_prod_fr.date == label and Electric_prod_fr.sourcetype_id == 4).update( { production_mw: row['Fioul']} )
+                                                db.session.query(Electric_prod_fr).filter(Electric_prod_fr.date == label and Electric_prod_fr.sourcetype_id == 5).update( { production_mw: row['Hydraulique']} )
+                                                db.session.query(Electric_prod_fr).filter(Electric_prod_fr.date == label and Electric_prod_fr.sourcetype_id == 6).update( { production_mw: row['Eolien']} )
+                                                db.session.query(Electric_prod_fr).filter(Electric_prod_fr.date == label and Electric_prod_fr.sourcetype_id == 7).update( { production_mw: row['Solaire']} )
+                                                db.session.query(Electric_prod_fr).filter(Electric_prod_fr.date == label and Electric_prod_fr.sourcetype_id == 8).update( { production_mw: row['Bioénergies']} )
                                             else:
                                                 db.session.add(Electric_prod_fr(date = label, sourcetype_id = 1, production_mw = row['Nucléaire']))
                                                 db.session.add(Electric_prod_fr(date = label, sourcetype_id = 2, production_mw = row['Gaz']))
