@@ -3,7 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 import pyodbc
 import urllib
 import os
-from models import db_update, csv_upload
+from models import db_update, csv_upload, get_data
 from werkzeug.utils import secure_filename
 from werkzeug.security import generate_password_hash, check_password_hash
 import time
@@ -117,36 +117,43 @@ class Electric_prod_fr_raw(db.Model):
         self.exchange = exchange
         self.co2 = co2
 
+# Get the data for graph
+# make a dataframe
+dates = db.session.query(Electric_prod_fr.date).all()
+dates_list = [d[0] for d in dates]
+productions = db.session.query(Electric_prod_fr.production_mw).all()
+productions_list = [p[0] for p in productions]
 
-labels = [
-    '2020-01', '2020-02', '2020-03', '2020-04',
-    '2020-05', '2020-06', '2020-07', '2020-08',
-    '2020-09', '2020-10', '2020-11', '2020-12'
-]
+labels, values, predictions = get_data(dates_list, productions_list)
+# labels = [
+#     '2020-01', '2020-02', '2020-03', '2020-04',
+#     '2020-05', '2020-06', '2020-07', '2020-08',
+#     '2020-09', '2020-10', '2020-11', '2020-12'
+# ]
 
-values = [
-    54742, 50788, 48071, 36952,
-    37429, 43043, 49012, 45234,
-    'NaN', 'NaN', 'NaN', 'NaN'
-]
+# values = [
+#     54742, 50788, 48071, 36952,
+#     37429, 43043, 49012, 45234,
+#     'NaN', 'NaN', 'NaN', 'NaN'
+# ]
 
-predictions = [
-    'NaN', 'NaN', 'NaN', 'NaN',
-    'NaN', 'NaN', 'NaN', 'NaN',
-    48230, 50432, 52777, 55320
-]
+# predictions = [
+#     'NaN', 'NaN', 'NaN', 'NaN',
+#     'NaN', 'NaN', 'NaN', 'NaN',
+#     48230, 50432, 52777, 55320
+# ]
 
-maximum = [
-    'NaN', 'NaN', 'NaN', 'NaN',
-    'NaN', 'NaN', 'NaN', 'NaN',
-    50000, 55000, 60000, 65000
-]
+# maximum = [
+#     'NaN', 'NaN', 'NaN', 'NaN',
+#     'NaN', 'NaN', 'NaN', 'NaN',
+#     50000, 55000, 60000, 65000
+# ]
 
-minimum = [
-    'NaN', 'NaN', 'NaN', 'NaN',
-    'NaN', 'NaN', 'NaN', 'NaN',
-    45000, 45000, 46000, 47000
-]
+# minimum = [
+#     'NaN', 'NaN', 'NaN', 'NaN',
+#     'NaN', 'NaN', 'NaN', 'NaN',
+#     45000, 45000, 46000, 47000
+# ]
 
 @app.route('/')
 @app.route('/', methods=['POST'])
@@ -161,15 +168,14 @@ def index():
             session['username'] = user_query.alias
             session['admin'] = False
             # get data
-
+            db.session
             line_labels = labels
             line_values = values
             line_predictions = predictions
-            line_max = maximum
-            line_min = minimum
+            # line_max = maximum
+            # line_min = minimum
             return render_template('index.html', max=17000,\
-                 labels=line_labels, values=line_values, predictions=line_predictions,\
-                     maximum=line_max, minimum=line_min )
+                 labels=line_labels, values=line_values, predictions=line_predictions)
         else:
             return render_template('index.html', error = 'Non autorisé')
     else:
