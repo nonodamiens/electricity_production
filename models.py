@@ -101,11 +101,9 @@ def get_data(dates, productions):
     df = pd.DataFrame({'date': dates, 'production_mw': productions})
     df['date'] = pd.to_datetime(df['date'])
     df_by_date = df.groupby('date').sum()
-    print(df_by_date)
     df_per_month = df_by_date.groupby([(df_by_date.index.year), (df_by_date.index.month)]).sum()
-    print(df_per_month)
     labels = [str(d[1]) + '-' + str(d[0]) for d in df_per_month.index.to_list()]
-    values = df_per_month.production_mw.to_list()[:-4]
-    predictions = df_per_month.production_mw.to_list()[-4:]
+    values = df_per_month.production_mw.to_list()[:-4] + ['NaN'] * 4
+    predictions = ['NaN'] * 8 + df_per_month.production_mw.to_list()[-4:]
 
     return labels, values, predictions
