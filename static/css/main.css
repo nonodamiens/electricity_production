@@ -173,9 +173,9 @@ header {
 }
 
 #chart {
-    background-image: url('../electric_poles_mist.jpg');
+    /* background-image: url('../electric_poles_mist.jpg');
     background-repeat: no-repeat;
-    background-position: 50% 50%;
+    background-position: 50% 50%; */
     height: 300px;
     /* text-align: center; */
     background-color: #000;
