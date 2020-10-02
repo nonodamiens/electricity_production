@@ -7,6 +7,7 @@ from models import db_update, csv_upload, get_data
 from werkzeug.utils import secure_filename
 from werkzeug.security import generate_password_hash, check_password_hash
 import time
+from datetime import datetime
 
 app = Flask(__name__)
 
@@ -118,10 +119,11 @@ class Electric_prod_fr_raw(db.Model):
         self.co2 = co2
 
 # Get the data for graph
-# make a dataframe
-dates = db.session.query(Electric_prod_fr.date).all()
+date_filter = datetime(datetime.today().year - 1, datetime.today().month - 1, 1)
+print(date_filter.year, date_filter.month)
+dates = db.session.query(Electric_prod_fr.date).filter(Electric_prod_fr.date > date_filter).all()
 dates_list = [d[0] for d in dates]
-productions = db.session.query(Electric_prod_fr.production_mw).all()
+productions = db.session.query(Electric_prod_fr.production_mw).filter(Electric_prod_fr.date > date_filter).all()
 productions_list = [p[0] for p in productions]
 
 labels, values, predictions = get_data(dates_list, productions_list)
