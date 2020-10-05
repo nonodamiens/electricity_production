@@ -51,6 +51,11 @@ header {
     padding-left: 5px;
 }
 
+#flash_message {
+    border: solid red;
+    padding: 0px 20px;
+}
+
 /* CONTENT */
 
 #content_block {
