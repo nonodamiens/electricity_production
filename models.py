@@ -51,7 +51,7 @@ def db_update(start_date=default_start_date, end_date=default_end_date, sandbox=
 
     print(response)
 
-    print(response.text)
+    # print(response.text)
     return response.text
 
 # test (to decomment to execute)

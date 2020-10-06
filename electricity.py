@@ -8,6 +8,7 @@ from werkzeug.utils import secure_filename
 from werkzeug.security import generate_password_hash, check_password_hash
 import time
 from datetime import datetime
+import json
 
 app = Flask(__name__)
 
@@ -306,8 +307,24 @@ def admin():
                 elif request.form.get('data_type') == 'update':
                     print('update automatic db')
                     # Call the function
-                    response = db_update(sandbox=True)
-                    print(response)
+                    response = db_update('2018-12-31T00:00:00+00:00', '2019-01-02T23:59:59+00:00')
+                    response_loaded = json.loads(response)
+                    for data in response_loaded['actual_generations_per_production_type']:
+                        # get the source name
+                        # print("FROM : ", data['start_date'][:10], ' TO ', data['end_date'][:10])
+                        
+                        production = {'2019-01-01':0, '2019-01-02': 0}
+                        for value in data['values']:
+                            production[value['start_date'][:10]] += value['value']
+                            # print("      ", value['start_date'], '    ', value['value'])
+                        # print("SOURCE :", data['production_type'], " : ", production)
+
+                        if data['production_type'] == 'NUCLEAR':
+                            for key in production:
+                                print('Update in db :', key, production[key])
+
+
+
                     flash("db update (code to complete)")
                     return render_template('admin.html')
                 else:
