@@ -47,6 +47,8 @@
                     <p>La mise à jour des données s'éffectue sur le mois précédent. pour mettre à jour les données sur d'autres période, merci de sélectionner celle souhaitée. Attention, la période ne peut dépasser 5 mois.</p>
                     <form action="admin" method="POST">
                         <input type="hidden" name="data_type" class="data_type" value="update">
+                        <input type='date' name='start_date' class='start_date' min="2014-12-15">
+                        <input type='date' name='end_date' class='end_date' min="2014-12-17">
                         <button class="button" type="submit">Mise à jour des données</button>
                     </form>
                 </div>
