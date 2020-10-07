@@ -329,12 +329,17 @@ def admin():
                         # check data already in db
                         if db.session.query(Electric_prod_fr.date).filter(Electric_prod_fr.date == indexes[0], Electric_prod_fr.sourcetype_id == int(indexes[1])).count() >= 1:
                             # db update
-                            print(db.session.query(Electric_prod_fr).filter(Electric_prod_fr.date == indexes[0], Electric_prod_fr.sourcetype_id == int(indexes[1])).first())
-                            # db.session.query(Electric_prod_fr).filter(Electric_prod_fr.date == indexes[0], Electric_prod_fr.sourcetype_id == int(indexes[1])).update(
-                            #     Electric_prod_fr.production_mw: datas.groupby('source', as_index=False).sum()['prod'][0]
-                            # )
+                            print(int(datas.groupby('source', as_index=False).sum()['prod'][0]))
+                            db.session.query(Electric_prod_fr).filter(Electric_prod_fr.date == indexes[0], Electric_prod_fr.sourcetype_id == int(indexes[1])).update(
+                                { Electric_prod_fr.production_mw : int(datas.groupby('source', as_index=False).sum()['prod'][0]) }
+                            )
+                            db.session.commit()
+                            print('data updated')
                         else:
-                            print('new data')
+                            # db add
+                            db.session.add(Electric_prod_fr(date = indexes[0], sourcetype_id = indexes[1], production_mw = int(datas.groupby('source', as_index=False).sum()['prod'][0])))
+                            db.session.commit()
+                            print('new data added')
 
                     flash("db update (code to complete)")
                     return render_template('admin.html')
