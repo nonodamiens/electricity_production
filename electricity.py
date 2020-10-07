@@ -7,8 +7,9 @@ from models import db_update, csv_upload, get_data
 from werkzeug.utils import secure_filename
 from werkzeug.security import generate_password_hash, check_password_hash
 import time
-from datetime import datetime
+from datetime import datetime, date
 import json
+import pandas as pd
 
 app = Flask(__name__)
 
@@ -306,24 +307,34 @@ def admin():
                 # Database update
                 elif request.form.get('data_type') == 'update':
                     print('update automatic db')
-                    # Call the function
-                    response = db_update('2018-12-31T00:00:00+00:00', '2019-01-02T23:59:59+00:00')
+                    # Call the function with dates to setup
+                    response = db_update('2018-11-01T00:00:00+00:00', '2018-11-03T23:59:59+00:00')
+                    print(response) # check network response
                     response_loaded = json.loads(response)
-                    for data in response_loaded['actual_generations_per_production_type']:
-                        # get the source name
-                        # print("FROM : ", data['start_date'][:10], ' TO ', data['end_date'][:10])
-                        
-                        production = {'2019-01-01':0, '2019-01-02': 0}
-                        for value in data['values']:
-                            production[value['start_date'][:10]] += value['value']
-                            # print("      ", value['start_date'], '    ', value['value'])
-                        # print("SOURCE :", data['production_type'], " : ", production)
 
-                        if data['production_type'] == 'NUCLEAR':
-                            for key in production:
-                                print('Update in db :', key, production[key])
+                    df = pd.DataFrame() # Dataframe instantiation
+                    # Source_id correspondence
+                    source_id = {'BIOMASS': 8, 'OTHER_RENEWABLE': 8, 'FOSSIL_BROWN_COAL_LIGNITE': 3, 'FOSSIL_COAL_DERIVED_GAS': 3, 'FOSSIL_HARD_COAL': 3, 'FOSSIL_GAS': 2,
+                                'FOSSIL_OIL': 4, 'FOSSIL_OIL_SHALE': 4, 'GEOTHERMAL': 5, 'HYDRO_RUN_OF_RIVER_AND_POUNDAGE': 5, 'HYDRO_WATER_RESERVOIR': 5, 'MARINE': 5,
+                                'NUCLEAR': 1, 'SOLAR': 7, 'WIND_OFFSHORE': 6, 'WIND_ONSHORE': 6, 'HYDRO_PUMPED_STORAGE': 0, 'WASTE': 8, 'TOTAL': 0}
+                    
+                    for source in response_loaded['actual_generations_per_production_type']:
+                        datas = [{'source': source_id[source['production_type']], 'date': x['start_date'][:10], 'prod': x['value']} for x in source['values']]
+                        df = df.append(pd.DataFrame(datas), ignore_index=True)
 
+                    # delete unusable rows
+                    df = df[df.source != 0]
 
+                    for indexes, datas in df.groupby(['date', 'source']):
+                        # check data already in db
+                        if db.session.query(Electric_prod_fr.date).filter(Electric_prod_fr.date == indexes[0], Electric_prod_fr.sourcetype_id == int(indexes[1])).count() >= 1:
+                            # db update
+                            print(db.session.query(Electric_prod_fr).filter(Electric_prod_fr.date == indexes[0], Electric_prod_fr.sourcetype_id == int(indexes[1])).first())
+                            # db.session.query(Electric_prod_fr).filter(Electric_prod_fr.date == indexes[0], Electric_prod_fr.sourcetype_id == int(indexes[1])).update(
+                            #     Electric_prod_fr.production_mw: datas.groupby('source', as_index=False).sum()['prod'][0]
+                            # )
+                        else:
+                            print('new data')
 
                     flash("db update (code to complete)")
                     return render_template('admin.html')
