@@ -319,7 +319,7 @@ def admin():
                         end_date = str(end_date) + 'T23:59:59+00:00'
                         print(start_date, end_date)
                         response = db_update(start_date, end_date)
-                        print(response) # check network response
+                        # print(response) # check network response
                         response_loaded = json.loads(response)
 
                         df = pd.DataFrame() # Dataframe instantiation
@@ -339,8 +339,6 @@ def admin():
                             # check data already in db
                             if db.session.query(Electric_prod_fr.date).filter(Electric_prod_fr.date == indexes[0], Electric_prod_fr.sourcetype_id == int(indexes[1])).count() >= 1:
                                 # db update
-                                print(indexes[0])
-                                print(int(datas.groupby('source', as_index=False).sum()['prod'][0]))
                                 db.session.query(Electric_prod_fr).filter(Electric_prod_fr.date == indexes[0], Electric_prod_fr.sourcetype_id == int(indexes[1])).update(
                                     { Electric_prod_fr.production_mw : int(datas.groupby('source', as_index=False).sum()['prod'][0]) }
                                 )
