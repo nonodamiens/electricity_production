@@ -121,12 +121,13 @@ class Electric_prod_fr_raw(db.Model):
         self.co2 = co2
 
 # Get the data for graph
-date_filter = datetime(datetime.today().year - 1, datetime.today().month - 1, 1)
-print(date_filter.year, date_filter.month)
-dates = db.session.query(Electric_prod_fr.date).filter(Electric_prod_fr.date > date_filter).all()
+date_filter_start = datetime(datetime.today().year - 1, datetime.today().month, 1)
+date_filter_end = datetime(datetime.today().year, datetime.today().month, 1)
+print(date_filter_start.year, date_filter_start.month)
+print(date_filter_end.year, date_filter_end.month)
+dates = db.session.query(Electric_prod_fr.date).filter(Electric_prod_fr.date >= date_filter_start, Electric_prod_fr.date < date_filter_end).all()
 dates_list = [d[0] for d in dates]
-print(dates_list)
-productions = db.session.query(Electric_prod_fr.production_mw).filter(Electric_prod_fr.date > date_filter).all()
+productions = db.session.query(Electric_prod_fr.production_mw).filter(Electric_prod_fr.date >= date_filter_start, Electric_prod_fr.date < date_filter_end).all()
 productions_list = [p[0] for p in productions]
 
 labels, values, predictions = get_data(dates_list, productions_list)
