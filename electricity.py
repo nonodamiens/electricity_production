@@ -64,7 +64,7 @@ class Electric_prod_fr(db.Model):
     def __init__(self, date, sourcetype_id, production_mw):
         self.date = date
         self.sourcetype_id = sourcetype_id
-        self.proproduction_mw = production_mw
+        self.production_mw = production_mw
 
 class Electric_source_type(db.Model):
     __tablename__ = 'electricity_source_type'
@@ -125,6 +125,7 @@ date_filter = datetime(datetime.today().year - 1, datetime.today().month - 1, 1)
 print(date_filter.year, date_filter.month)
 dates = db.session.query(Electric_prod_fr.date).filter(Electric_prod_fr.date > date_filter).all()
 dates_list = [d[0] for d in dates]
+print(dates_list)
 productions = db.session.query(Electric_prod_fr.production_mw).filter(Electric_prod_fr.date > date_filter).all()
 productions_list = [p[0] for p in productions]
 
@@ -344,12 +345,13 @@ def admin():
                                     { Electric_prod_fr.production_mw : int(datas.groupby('source', as_index=False).sum()['prod'][0]) }
                                 )
                                 db.session.commit()
-                                print('data updated')
+                                print('row ', indexes[0], ' and source ', indexes[1], ' updated')
                             else:
                                 # db add
-                                db.session.add(Electric_prod_fr(date = indexes[0], sourcetype_id = indexes[1], production_mw = int(datas.groupby('source', as_index=False).sum()['prod'][0])))
+                                new_data = Electric_prod_fr(date = indexes[0], sourcetype_id = int(indexes[1]), production_mw = int(datas.groupby('source', as_index=False).sum()['prod'][0]))
+                                db.session.add(new_data)
                                 db.session.commit()
-                                print('new data added')
+                                print('row ', indexes[0], ' and source ', indexes[1], ' added')
 
                         flash("db update (code to complete)")
                     return render_template('admin.html')
