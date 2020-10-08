@@ -303,7 +303,7 @@ def admin():
                                     time.sleep(4)
                                     yield '<script>document.location.href="admin"</script>'
                                 return Response(inner())
-                            return render_template('admin.html')
+                        return render_template('admin.html')
                 # Database update
                 elif request.form.get('data_type') == 'update':
                     print('update automatic db')
