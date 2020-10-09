@@ -10,6 +10,9 @@ import time
 from datetime import datetime, date, timedelta
 import json
 import pandas as pd
+import numpy as np
+from statsmodels.tsa.api import ExponentialSmoothing
+import statsmodels.api as sm
 
 app = Flask(__name__)
 
@@ -402,6 +405,27 @@ def adminlogout():
         session.pop('admin', None)
         flash("Vous êtes déconnecté")
     return redirect(url_for('admin'))
+
+@app.route('/tests')
+def tests():
+    # datas
+    values = np.random.randint(3000, 8000, 24)
+    dates = [date(2012, x, 1) for x in range(1, 13)] + [date(2013, x, 1) for x in range(1, 13)]
+
+    df = pd.DataFrame(values, index = dates, columns=['prod'])
+
+    hw = ExponentialSmoothing(np.asarray(df["prod"]), seasonal_periods=12, trend='mul', seasonal='mul').fit()
+    hw_pred = hw.forecast(4)
+    print(hw_pred)
+
+    hw.save("hotwinter.pickle")
+
+    hw2 = sm.load("hotwinter.pickle")
+
+    hw2_pred = hw2.forecast(4)
+    print(hw2_pred)
+
+    return 'page de tests'
 
 if __name__ == '__main__':
     app.secret_key=os.environ['KEY']
