@@ -103,7 +103,13 @@ def get_data(dates, productions):
     df_by_date = df.groupby('date').sum()
     df_per_month = df_by_date.groupby([(df_by_date.index.year), (df_by_date.index.month)]).sum()
     labels = [str(d[1]) + '-' + str(d[0]) for d in df_per_month.index.to_list()]
+
+    # !!!!!!! TO BE UPDATED WITH TRUE PREDS DATA LATER !!!!!!!
     values = df_per_month.production_mw.to_list()[:-4] + ['NaN'] * 4
     predictions = ['NaN'] * 8 + df_per_month.production_mw.to_list()[-4:]
+    # To test let's calculate an uncertainly interval about 5%
+    maximum = [int(v * 1.05) if type(v) == int else v for v in predictions]
+    minimum = [int(v * 0.95) if type(v) == int else v for v in predictions]
+    # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-    return labels, values, predictions
+    return labels, values, predictions, maximum, minimum

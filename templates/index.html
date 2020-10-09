@@ -85,7 +85,8 @@
                             "{{ item }}",
                         {% endfor %}
                     ],
-                    datasets: [{
+                    datasets: [
+                        {
                         label: 'Confirmed values',
                         backgroundColor: 'rgb(52, 134, 235,0.2)',
                         borderColor: 'rgb(52, 134, 235)',
@@ -95,19 +96,39 @@
                                 {{ item }},
                             {% endfor %}
                             ]
-                    },
-                    {
-                        label: 'Predictions',
-                        backgroundColor: 'rgb(235, 92, 52, 0.2)',
-                        borderColor: 'rgb(235, 92, 52)',
-                        data: [
-                            {% for item in predictions %}
-                                {{ item }},
-                            {% endfor %}
-                        ]
-                    },                    
-                ]
-            },
+                        },
+                        {
+                            label: 'Predictions',
+                            backgroundColor: 'rgb(235, 92, 52, 0.2)',
+                            borderColor: 'rgb(235, 92, 52)',
+                            data: [
+                                {% for item in predictions %}
+                                    {{ item }},
+                                {% endfor %}
+                            ]
+                        },
+                        {
+                            label: 'Maximum',
+                            backgroundColor: 'rgb(100, 100, 100, 0.2)',
+                            borderColor: 'rgb(100, 100, 100)',
+                            data: [
+                                {% for item in maximum %}
+                                    {{ item }},
+                                {% endfor %}
+                            ]
+                        },
+                        {
+                            label: 'Minimum',
+                            backgroundColor: 'rgb(100, 100, 100, 0.2)',
+                            borderColor: 'rgb(100, 100, 100)',
+                            data: [
+                                {% for item in minimum %}
+                                    {{ item }},
+                                {% endfor %}
+                            ]
+                        },                    
+                    ]
+                },
 
             // Configuration options go here
             options: {

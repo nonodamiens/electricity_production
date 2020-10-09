@@ -130,7 +130,7 @@ dates_list = [d[0] for d in dates]
 productions = db.session.query(Electric_prod_fr.production_mw).filter(Electric_prod_fr.date >= date_filter_start, Electric_prod_fr.date < date_filter_end).all()
 productions_list = [p[0] for p in productions]
 
-labels, values, predictions = get_data(dates_list, productions_list)
+labels, values, predictions, maximum, minimum = get_data(dates_list, productions_list)
 # labels = [
 #     '2020-01', '2020-02', '2020-03', '2020-04',
 #     '2020-05', '2020-06', '2020-07', '2020-08',
@@ -174,14 +174,15 @@ def index():
             session['username'] = user_query.alias
             session['admin'] = False
             # get data
-            db.session
+            # db.session
             line_labels = labels
             line_values = values
             line_predictions = predictions
-            # line_max = maximum
-            # line_min = minimum
-            return render_template('index.html', max=17000,\
-                 labels=line_labels, values=line_values, predictions=line_predictions)
+            line_max = maximum
+            line_min = minimum
+            return render_template('index.html', max=17000,
+                labels=line_labels, values=line_values,
+                predictions=line_predictions, maximum=line_max, minimum=line_min)
         else:
             return render_template('index.html', error = 'Non autorisé')
     else:
