@@ -123,47 +123,6 @@ class Electric_prod_fr_raw(db.Model):
         self.exchange = exchange
         self.co2 = co2
 
-# Get the data for graph
-date_filter_start = datetime(datetime.today().year - 1, datetime.today().month, 1)
-date_filter_end = datetime(datetime.today().year, datetime.today().month, 1)
-print(date_filter_start.year, date_filter_start.month)
-print(date_filter_end.year, date_filter_end.month)
-dates = db.session.query(Electric_prod_fr.date).filter(Electric_prod_fr.date >= date_filter_start, Electric_prod_fr.date < date_filter_end).all()
-dates_list = [d[0] for d in dates]
-productions = db.session.query(Electric_prod_fr.production_mw).filter(Electric_prod_fr.date >= date_filter_start, Electric_prod_fr.date < date_filter_end).all()
-productions_list = [p[0] for p in productions]
-
-labels, values, predictions, maximum, minimum = get_data(dates_list, productions_list)
-# labels = [
-#     '2020-01', '2020-02', '2020-03', '2020-04',
-#     '2020-05', '2020-06', '2020-07', '2020-08',
-#     '2020-09', '2020-10', '2020-11', '2020-12'
-# ]
-
-# values = [
-#     54742, 50788, 48071, 36952,
-#     37429, 43043, 49012, 45234,
-#     'NaN', 'NaN', 'NaN', 'NaN'
-# ]
-
-# predictions = [
-#     'NaN', 'NaN', 'NaN', 'NaN',
-#     'NaN', 'NaN', 'NaN', 'NaN',
-#     48230, 50432, 52777, 55320
-# ]
-
-# maximum = [
-#     'NaN', 'NaN', 'NaN', 'NaN',
-#     'NaN', 'NaN', 'NaN', 'NaN',
-#     50000, 55000, 60000, 65000
-# ]
-
-# minimum = [
-#     'NaN', 'NaN', 'NaN', 'NaN',
-#     'NaN', 'NaN', 'NaN', 'NaN',
-#     45000, 45000, 46000, 47000
-# ]
-
 @app.route('/')
 @app.route('/', methods=['POST'])
 def index():
@@ -176,8 +135,17 @@ def index():
             user_query =  db.session.query(Users).filter(Users.alias == user).first()
             session['username'] = user_query.alias
             session['admin'] = False
-            # get data
-            # db.session
+            # Get the data for graph
+            date_filter_start = datetime(datetime.today().year - 1, datetime.today().month, 1)
+            date_filter_end = datetime(datetime.today().year, datetime.today().month, 1)
+            print(date_filter_start.year, date_filter_start.month)
+            print(date_filter_end.year, date_filter_end.month)
+            dates = db.session.query(Electric_prod_fr.date).filter(Electric_prod_fr.date >= date_filter_start, Electric_prod_fr.date < date_filter_end).all()
+            dates_list = [d[0] for d in dates]
+            productions = db.session.query(Electric_prod_fr.production_mw).filter(Electric_prod_fr.date >= date_filter_start, Electric_prod_fr.date < date_filter_end).all()
+            productions_list = [p[0] for p in productions]
+
+            labels, values, predictions, maximum, minimum = get_data(dates_list, productions_list)
             line_labels = labels
             line_values = values
             line_predictions = predictions
@@ -409,21 +377,19 @@ def adminlogout():
 @app.route('/tests')
 def tests():
     # datas
-    values = np.random.randint(3000, 8000, 24)
-    dates = [date(2012, x, 1) for x in range(1, 13)] + [date(2013, x, 1) for x in range(1, 13)]
-
-    df = pd.DataFrame(values, index = dates, columns=['prod'])
+    query = db.session.query(Electric_prod_fr.date, Electric_prod_fr.production_mw).all()
+    df = pd.DataFrame([x for x in query], columns = ['date', 'prod'])
+    df.date = pd.to_datetime(df.date)
+    df = df.set_index('date')
+    df = df.groupby(pd.Grouper(freq='M')).sum()
+    df = df.set_index(df.index.to_period("M"))
+    print(df['prod'].head())
 
     hw = ExponentialSmoothing(np.asarray(df["prod"]), seasonal_periods=12, trend='mul', seasonal='mul').fit()
     hw_pred = hw.forecast(4)
     print(hw_pred)
 
     hw.save("hotwinter.pickle")
-
-    hw2 = sm.load("hotwinter.pickle")
-
-    hw2_pred = hw2.forecast(4)
-    print(hw2_pred)
 
     return 'page de tests'
 

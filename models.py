@@ -3,6 +3,8 @@ import os
 import json
 import datetime
 import pandas as pd
+from statsmodels.tsa.api import ExponentialSmoothing
+import statsmodels.api as sm
 
 # set the start and end default date data selection
 # For the default ending date takes the month before the actual date  
@@ -102,14 +104,18 @@ def get_data(dates, productions):
     df['date'] = pd.to_datetime(df['date'])
     df_by_date = df.groupby('date').sum()
     df_per_month = df_by_date.groupby([(df_by_date.index.year), (df_by_date.index.month)]).sum()
-    labels = [str(d[1]) + '-' + str(d[0]) for d in df_per_month.index.to_list()]
+    labels = [str(d[1] - 8) + '-' + str(d[0] + 1) if d[1] in [9, 10, 11, 12] else str(d[1] + 4) + '-' + str(d[0]) for d in df_per_month.index.to_list()]
 
-    # !!!!!!! TO BE UPDATED WITH TRUE PREDS DATA LATER !!!!!!!
-    values = df_per_month.production_mw.to_list()[:-4] + ['NaN'] * 4
-    predictions = ['NaN'] * 8 + df_per_month.production_mw.to_list()[-4:]
+    hw = sm.load("hotwinter.pickle")
+    hw_pred = hw.forecast(4)
+
+    values = df_per_month.production_mw.to_list()[4:] + ['NaN'] * 4
+    predictions = ['NaN'] * 8 + hw_pred.tolist()
+
     # To test let's calculate an uncertainly interval about 5%
     maximum = [int(v * 1.05) if type(v) == int else v for v in predictions]
     minimum = [int(v * 0.95) if type(v) == int else v for v in predictions]
-    # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+    print(maximum, minimum)
 
     return labels, values, predictions, maximum, minimum
