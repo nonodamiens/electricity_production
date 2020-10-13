@@ -274,51 +274,53 @@ def admin():
                         return render_template('admin.html')
                 # Database update
                 elif request.form.get('data_type') == 'update':
-                    print('update automatic db')
                     # Call the function with dates to setup
-                    start_date = date(int(request.form.get('start_date')[:4]), int(request.form.get('start_date')[5:7]), int(request.form.get('start_date')[8:]))
-                    end_date = date(int(request.form.get('end_date')[:4]), int(request.form.get('end_date')[5:7]), int(request.form.get('end_date')[8:]))
-                    if start_date > end_date :
-                        flash("Erreur de saisie de dates")
+                    if request.form.get('start_date') != '':
+                        start_date = str(date(int(request.form.get('start_date')[:4]), int(request.form.get('start_date')[5:7]), int(request.form.get('start_date')[8:]))) + 'T00:00:00+00:00'
                     else:
-                        start_date = start_date - timedelta(days=1)
-                        start_date = str(start_date) + 'T00:00:00+00:00'
-                        end_date = str(end_date) + 'T23:59:59+00:00'
-                        print(start_date, end_date)
-                        response = db_update(start_date, end_date)
-                        # print(response) # check network response
-                        response_loaded = json.loads(response)
+                        start_date = None
+                    if request.form.get('end_date') != '':
+                        end_date = str(date(int(request.form.get('end_date')[:4]), int(request.form.get('end_date')[5:7]), int(request.form.get('end_date')[8:]))) + 'T23:59:59+00:00'
+                    else:
+                        end_date = None
+                    # start_date = start_date - timedelta(days=1)
+                    # start_date = str(start_date) + 'T00:00:00+00:00'
+                    # end_date = str(end_date) + 'T23:59:59+00:00'
+                    print(start_date, end_date)
+                    response = db_update(start_date, end_date)
+                    # print(response) # check network response
+                    response_loaded = json.loads(response)
+                    print(response_loaded)
+                    df = pd.DataFrame() # Dataframe instantiation
+                    # Source_id correspondence
+                    source_id = {'BIOMASS': 8, 'OTHER_RENEWABLE': 8, 'FOSSIL_BROWN_COAL_LIGNITE': 3, 'FOSSIL_COAL_DERIVED_GAS': 3, 'FOSSIL_HARD_COAL': 3, 'FOSSIL_GAS': 2,
+                                'FOSSIL_OIL': 4, 'FOSSIL_OIL_SHALE': 4, 'GEOTHERMAL': 5, 'HYDRO_RUN_OF_RIVER_AND_POUNDAGE': 5, 'HYDRO_WATER_RESERVOIR': 5, 'MARINE': 5,
+                                'NUCLEAR': 1, 'SOLAR': 7, 'WIND_OFFSHORE': 6, 'WIND_ONSHORE': 6, 'HYDRO_PUMPED_STORAGE': 0, 'WASTE': 8, 'TOTAL': 0}
+                    
+                    for source in response_loaded['actual_generations_per_production_type']:
+                        datas = [{'source': source_id[source['production_type']], 'date': x['start_date'][:10], 'prod': x['value']} for x in source['values']]
+                        df = df.append(pd.DataFrame(datas), ignore_index=True)
 
-                        df = pd.DataFrame() # Dataframe instantiation
-                        # Source_id correspondence
-                        source_id = {'BIOMASS': 8, 'OTHER_RENEWABLE': 8, 'FOSSIL_BROWN_COAL_LIGNITE': 3, 'FOSSIL_COAL_DERIVED_GAS': 3, 'FOSSIL_HARD_COAL': 3, 'FOSSIL_GAS': 2,
-                                    'FOSSIL_OIL': 4, 'FOSSIL_OIL_SHALE': 4, 'GEOTHERMAL': 5, 'HYDRO_RUN_OF_RIVER_AND_POUNDAGE': 5, 'HYDRO_WATER_RESERVOIR': 5, 'MARINE': 5,
-                                    'NUCLEAR': 1, 'SOLAR': 7, 'WIND_OFFSHORE': 6, 'WIND_ONSHORE': 6, 'HYDRO_PUMPED_STORAGE': 0, 'WASTE': 8, 'TOTAL': 0}
-                        
-                        for source in response_loaded['actual_generations_per_production_type']:
-                            datas = [{'source': source_id[source['production_type']], 'date': x['start_date'][:10], 'prod': x['value']} for x in source['values']]
-                            df = df.append(pd.DataFrame(datas), ignore_index=True)
+                    # delete unusable rows
+                    df = df[df.source != 0]
 
-                        # delete unusable rows
-                        df = df[df.source != 0]
+                    for indexes, datas in df.groupby(['date', 'source']):
+                        # check data already in db
+                        if db.session.query(Electric_prod_fr.date).filter(Electric_prod_fr.date == indexes[0], Electric_prod_fr.sourcetype_id == int(indexes[1])).count() >= 1:
+                            # db update
+                            db.session.query(Electric_prod_fr).filter(Electric_prod_fr.date == indexes[0], Electric_prod_fr.sourcetype_id == int(indexes[1])).update(
+                                { Electric_prod_fr.production_mw : int(datas.groupby('source', as_index=False).sum()['prod'][0]) }
+                            )
+                            db.session.commit()
+                            print('row ', indexes[0], ' and source ', indexes[1], ' updated')
+                        else:
+                            # db add
+                            new_data = Electric_prod_fr(date = indexes[0], sourcetype_id = int(indexes[1]), production_mw = int(datas.groupby('source', as_index=False).sum()['prod'][0]))
+                            db.session.add(new_data)
+                            db.session.commit()
+                            print('row ', indexes[0], ' and source ', indexes[1], ' added')
 
-                        for indexes, datas in df.groupby(['date', 'source']):
-                            # check data already in db
-                            if db.session.query(Electric_prod_fr.date).filter(Electric_prod_fr.date == indexes[0], Electric_prod_fr.sourcetype_id == int(indexes[1])).count() >= 1:
-                                # db update
-                                db.session.query(Electric_prod_fr).filter(Electric_prod_fr.date == indexes[0], Electric_prod_fr.sourcetype_id == int(indexes[1])).update(
-                                    { Electric_prod_fr.production_mw : int(datas.groupby('source', as_index=False).sum()['prod'][0]) }
-                                )
-                                db.session.commit()
-                                print('row ', indexes[0], ' and source ', indexes[1], ' updated')
-                            else:
-                                # db add
-                                new_data = Electric_prod_fr(date = indexes[0], sourcetype_id = int(indexes[1]), production_mw = int(datas.groupby('source', as_index=False).sum()['prod'][0]))
-                                db.session.add(new_data)
-                                db.session.commit()
-                                print('row ', indexes[0], ' and source ', indexes[1], ' added')
-
-                        flash("db update (code to complete)")
+                    flash("db update (code to complete)")
                     return render_template('admin.html')
                 else:
                     return render_template('admin.html', error = 'An error occured, please retry')

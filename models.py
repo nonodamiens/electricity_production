@@ -6,19 +6,10 @@ import pandas as pd
 from statsmodels.tsa.api import ExponentialSmoothing
 import statsmodels.api as sm
 
-# set the start and end default date data selection
-# For the default ending date takes the month before the actual date  
-date_inter = datetime.date.today()
-if date_inter.month == 1:
-    default_end_date = str(date_inter.replace(year = date_inter.year - 1, month = 12)) + 'T00:00:00+00:00'
-else:
-    default_end_date = str(date_inter.replace(month = date_inter.month - 1)) + 'T00:00:00+00:00'
-default_start_date = '2015-01-01T00:00:00+00:00' # Can't go before
-
 # Mandatory API key
 api_key = os.environ['API_KEY']
 
-def db_update(start_date=default_start_date, end_date=default_end_date, sandbox=False):
+def db_update(start_date=None, end_date=None, sandbox=False):
     """ Get raw data from RTE API and save it to DB
     
     parameters:
@@ -29,6 +20,16 @@ def db_update(start_date=default_start_date, end_date=default_end_date, sandbox=
     The minimum period is one day
     The maximum period is 155 days"""
     
+    # Make dates if necessary
+    date_inter = datetime.date.today()
+    if start_date == None:
+        if date_inter.month == 1:
+            start_date = str(date_inter.replace(year = date_inter.year - 1, month = 12, day = 1)) + 'T00:00:00+00:00'
+        else:
+            start_date = str(date_inter.replace(month = date_inter.month - 1, day = 1)) + 'T00:00:00+00:00'
+    if end_date == None:
+        end_date = str(date_inter.replace(day = 1) - datetime.timedelta(days = 1)) + 'T23:59:59+00:00'
+
     # Get Token
     headers_token = {
         'Authorization': 'Basic ' + api_key,
