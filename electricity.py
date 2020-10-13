@@ -146,14 +146,8 @@ def index():
             productions_list = [p[0] for p in productions]
 
             labels, values, predictions, maximum, minimum = get_data(dates_list, productions_list)
-            line_labels = labels
-            line_values = values
-            line_predictions = predictions
-            line_max = maximum
-            line_min = minimum
-            return render_template('index.html', max=17000,
-                labels=line_labels, values=line_values,
-                predictions=line_predictions, maximum=line_max, minimum=line_min)
+
+            return render_template('index.html', max=17000, labels=labels, values=values, predictions=predictions, maximum=maximum, minimum=minimum)
         else:
             return render_template('index.html', error = 'Non autorisé')
     else:
