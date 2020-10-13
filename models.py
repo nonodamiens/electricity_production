@@ -108,14 +108,18 @@ def get_data(dates, productions):
 
     hw = sm.load("hotwinter.pickle")
     hw_pred = hw.forecast(4)
+    hw_pred = list(map(int, hw_pred))
 
     values = df_per_month.production_mw.to_list()[4:] + ['NaN'] * 4
-    predictions = ['NaN'] * 8 + hw_pred.tolist()
+    predictions = ['NaN'] * 8 + hw_pred
 
     # To test let's calculate an uncertainly interval about 5%
     maximum = [int(v * 1.05) if type(v) == int else v for v in predictions]
     minimum = [int(v * 0.95) if type(v) == int else v for v in predictions]
 
-    print(maximum, minimum)
+    print(values)
+    print(predictions)
+    print(maximum)
+    print(minimum)
 
     return labels, values, predictions, maximum, minimum

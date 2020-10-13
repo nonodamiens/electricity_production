@@ -143,7 +143,7 @@ def index():
             dates = db.session.query(Electric_prod_fr.date).filter(Electric_prod_fr.date >= date_filter_start, Electric_prod_fr.date < date_filter_end).all()
             dates_list = [d[0] for d in dates]
             productions = db.session.query(Electric_prod_fr.production_mw).filter(Electric_prod_fr.date >= date_filter_start, Electric_prod_fr.date < date_filter_end).all()
-            productions_list = [p[0] for p in productions]
+            productions_list = [int(p[0]) for p in productions]
 
             labels, values, predictions, maximum, minimum = get_data(dates_list, productions_list)
 
