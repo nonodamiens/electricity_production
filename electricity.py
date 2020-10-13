@@ -3,7 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 import pyodbc
 import urllib
 import os
-from models import db_update, csv_upload, get_data
+from models import db_update, csv_upload, get_data, training
 from werkzeug.utils import secure_filename
 from werkzeug.security import generate_password_hash, check_password_hash
 import time
@@ -319,8 +319,10 @@ def admin():
                             db.session.add(new_data)
                             db.session.commit()
                             print('row ', indexes[0], ' and source ', indexes[1], ' added')
-
-                    flash("db update (code to complete)")
+                    # updating model
+                    data = db.session.query(Electric_prod_fr.date, Electric_prod_fr.production_mw).all()
+                    training(data)
+                    flash("db updated")
                     return render_template('admin.html')
                 else:
                     return render_template('admin.html', error = 'An error occured, please retry')

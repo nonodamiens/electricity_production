@@ -3,6 +3,7 @@ import os
 import json
 import datetime
 import pandas as pd
+import numpy as np
 from statsmodels.tsa.api import ExponentialSmoothing
 import statsmodels.api as sm
 
@@ -124,3 +125,18 @@ def get_data(dates, productions):
     print(minimum)
 
     return labels, values, predictions, maximum, minimum
+
+def training(data):
+    ''' Make and train the machine learning model '''
+
+    df = pd.DataFrame([x for x in data], columns = ['date', 'prod'])
+    df.date = pd.to_datetime(df.date)
+    df = df.set_index('date')
+    df = df.groupby(pd.Grouper(freq='M')).sum()
+    df = df.set_index(df.index.to_period("M"))
+
+    hw = ExponentialSmoothing(np.asarray(df["prod"]), seasonal_periods=12, trend='mul', seasonal='mul').fit()
+    hw_pred = hw.forecast(4)
+    hw.save("hotwinter.pickle")
+
+    return 'hotwinter model have been trained and saved'
