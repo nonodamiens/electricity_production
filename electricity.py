@@ -21,7 +21,7 @@ app = Flask(__name__)
 server = os.environ['SERVER']
 database = os.environ['DB']
 username = os.environ['SUPERADMIN']
-password = os.environ['PWD']   
+password = os.environ['PASS']   
 driver= '{ODBC Driver 17 for SQL Server}'
 
 params = urllib.parse.quote_plus \
