@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, session, redirect, url_for, flash, Response
 from flask_sqlalchemy import SQLAlchemy
+from dotenv import load_dotenv
 import pyodbc
 import urllib
 import os
@@ -18,10 +19,12 @@ app = Flask(__name__)
 
 # Connection informations for SQL database
 # --- On Azure ---
-server = os.environ['SERVER']
-database = os.environ['DB']
-username = os.environ['SUPERADMIN']
-password = os.environ['PASS']   
+load_dotenv()
+
+server = os.getenv('SERVER')
+database = os.getenv('DB')
+username = os.getenv('SUPERADMIN')
+password = os.getenv('PASS')   
 driver= '{ODBC Driver 17 for SQL Server}'
 
 params = urllib.parse.quote_plus \
@@ -392,7 +395,7 @@ def tests():
     return 'page de tests'
 
 if __name__ == '__main__':
-    app.secret_key=os.environ['KEY']
+    app.secret_key=os.getenv('KEY')
     if ENV == 'dev':
         app.run(host='0.0.0.0')
     else:

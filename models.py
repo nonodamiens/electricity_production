@@ -8,7 +8,7 @@ from statsmodels.tsa.api import ExponentialSmoothing
 import statsmodels.api as sm
 
 # Mandatory API key
-api_key = os.environ['API_KEY']
+api_key = os.getenv('API_KEY')
 
 def db_update(start_date=None, end_date=None, sandbox=False):
     """ Get raw data from RTE API and save it to DB
