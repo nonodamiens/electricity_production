@@ -8,12 +8,9 @@ body {
     text-align: center;
     font-family: monospace, arial, sans-serif;
     color: #fff;
-    /* height: 100%; */
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
     align-items: center;
-    /* border: solid black 1px; */
 }
 
 body a {
@@ -30,11 +27,11 @@ body a {
     height: 200px;
 }
 
-#error {
+/* #error {
     color: red;
-}
+} */
 
-/* HEADER */
+/* ---------------- HEADER ---------------------------*/
 
 header {
     width: 100%;
@@ -56,17 +53,19 @@ header {
     padding: 0px 20px;
 }
 
-/* CONTENT */
+/* ----------------------- MENU ---------------------- */
 
-#content_block {
+#menu_block {
     display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    /* border: inherit; */
-    width: 90%;
+    width: 100%;
     max-width: 1400px;
+    min-width: 1000px;
     margin-top: 100px;
-    height: 650px;
+    justify-content: space-between;
+}
+
+#menu {
+    display: flex;
 }
 
 #title_block {
@@ -91,6 +90,14 @@ header {
     margin: 0px;
     font-size: 2.5em;
     align-self: flex-end;
+}
+
+#intro_block {
+    flex: 0.9;
+    height: 300px;
+    background-color: #000;
+    border: inherit;
+    box-shadow: 3px 8px 8px rgba(0, 0, 0, 0.25);
 }
 
 #login_block {
@@ -140,7 +147,16 @@ header {
     border-top: #fff solid 2px;
 }
 
-/* hello page */
+/* ------------------------ CONTENT ----------------- */
+
+#content_block {
+    display: flex;
+    width: 100%;
+    max-width: 1400px;
+    margin-top: 50px;
+}
+
+/* ----------------------- hello page ------------------------ */
 
 #welcome_block {
     /* width: 300px; */
@@ -171,20 +187,12 @@ header {
 #chart_block {
     display: flex;
     align-items: center;
-    justify-content: space-around;
-    flex-wrap: wrap;
     width: 100%;
-    margin: 5% 0%;
 }
 
 #chart {
-    /* background-image: url('../electric_poles_mist.jpg');
-    background-repeat: no-repeat;
-    background-position: 50% 50%; */
-    height: 300px;
-    /* text-align: center; */
     background-color: #000;
-    flex: 0.9;
+    flex: 1;
     box-shadow: 3px 8px 8px rgba(0, 0, 0, 0.25);
 }
 
