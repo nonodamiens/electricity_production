@@ -12,6 +12,16 @@
             {% block header %}{% endblock %}
         </header>
     
+        <div id="flash_message">
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    {% for message in messages %}
+                        <div>{{ message }}</div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+        </div>
+
         <section id="menu_block">
             {% block menu %}{% endblock %}
         </section>

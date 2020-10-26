@@ -152,7 +152,8 @@ def index():
 
             return render_template('index.html', max=17000, labels=labels, values=values, predictions=predictions, maximum=maximum, minimum=minimum)
         else:
-            return render_template('index.html', error = 'Non autorisé')
+            flash('Identifiants inconnus - accès refusé')
+            return render_template('index.html')
     else:
         return render_template('index.html')
 
@@ -328,7 +329,8 @@ def admin():
                     flash("db updated")
                     return render_template('admin.html')
                 else:
-                    return render_template('admin.html', error = 'An error occured, please retry')
+                    flash('Il y eu une erreur, merci de réessayer')
+                    return render_template('admin.html')
             else:
                 return render_template('admin.html')
         else:
@@ -344,8 +346,9 @@ def admin():
             password = request.form['password']
             user_db = db.session.query(Users).filter(Users.alias == user).first()
             if db.session.query(Users).filter(Users.alias == user).count() != 1 or\
-                check_password_hash(user_db.password, password):
-                return render_template('admin.html', error = 'Wrong login or password')
+                check_password_hash(user_db.password, password) != True:
+                flash('Identifiants inconnus')
+                return render_template('admin.html')
             else:
                 query =  db.session.query(Users).filter(Users.alias == user).first()
                 if query.administrator:
@@ -353,9 +356,11 @@ def admin():
                     session['admin'] = True
                     return render_template('admin.html', administrator=query.alias)
                 else:
-                    return render_template('admin.html', error = 'You are not authorized')
+                    flash('Vous n\'êtes pas autorisé à accéder à l\'interface administrateur')
+                    return render_template('admin.html')
         else:
-            return render_template('admin.html', error = 'An error occured, please retry')
+            flash('Il y a eu une erreur, merci de réessayer')
+            return render_template('admin.html')
     else:
         return render_template('admin.html')
 

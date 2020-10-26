@@ -49,8 +49,10 @@ header {
 }
 
 #flash_message {
-    border: solid red;
-    padding: 0px 20px;
+    position: absolute;
+    top: 50px;
+    border: solid red 1px;
+    background-color: red;
 }
 
 /* ----------------------- MENU ---------------------- */
