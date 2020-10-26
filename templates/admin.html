@@ -24,34 +24,17 @@
     </div>
 {% endblock %}
 
-{% block content %}
+{% block menu %}
     <div id="title_block">
         <div id="title">
             <h1>Electricity Forecast Admin.</h1>
         </div>
     </div>
     {% if session['admin'] %}
-        <div id="chart">
-            <div id="myChart" height="300">
-                <p><b>Bloc de gestion de la data</b></p>
-                <div class="form">
-                    <p>Insérer un fichier csv (séparateur ";")</p>
-                    <form action="admin" enctype="multipart/form-data" method="POST">
-                        <input type="hidden" name="data_type" class="data_type" value="csv_file">
-                        <input type="file" name="file" class="csv_file">
-                        <button class="button" type="submit">Insérer les données</button>
-                    </form>
-                </div>
-                <div class="form">
-                    <p>Mise à jour des données automatisée</p>
-                    <p>La mise à jour des données s'éffectue sur le mois précédent. pour mettre à jour les données sur d'autres période, merci de sélectionner celle souhaitée. Attention, la période ne peut dépasser 5 mois.</p>
-                    <form action="admin" method="POST">
-                        <input type="hidden" name="data_type" class="data_type" value="update">
-                        <input type='date' name='start_date' class='start_date' min="2014-12-15">
-                        <input type='date' name='end_date' class='end_date' min="2014-12-17">
-                        <button class="button" type="submit">Mise à jour des données</button>
-                    </form>
-                </div>
+        <div id="intro_block">
+            <div id="intro">
+                <p><b>Bienvenue {{ session['username'] }} sur l'administration d'Electricity Forecast</b><br />
+                Vous pouvez mettre à jour les données ou ajouter des utilisateurs.</p>
             </div>
         </div>
         <div id="login_block">
@@ -87,41 +70,54 @@
                 </form>
             </div>
         </div>
-    {% elif error %}
-        <div id="chart">
-            <div id="myChart" height="300">
+    {% else %}
+        <div id="intro_block">
+            <div id="intro">
                 <p><b>Bienvenue sur l'administration d'Electricity Forecast</b><br />
                 Merci de vous authentitifier pour accéder a l'interface d'administration.</p>
             </div>
         </div>
         <div id="login_block">
             <div id="login">
-                <div id="error">
-                    {{ error }}
-                </div>
                 <form action="admin" method="POST">
                     <input name="data_type" type="hidden" class="data_type" value="login">
                     <input name="alias" type="text" class="alias" placeholder="Votre identifiant administrateur">
                     <input name="password" type="password" class="pass" placeholder="Votre mot de passe">
                     <button class="button" type="submit">Valider</button>
                 </form>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}
+{% block content %}
+    {% if session['admin'] %}
+        <div id="chart">
+            <div id="myChart">
+                <p><b>Bloc de gestion de la data</b></p>
+                <div class="form">
+                    <p>Insérer un fichier csv (séparateur ";")</p>
+                    <form action="admin" enctype="multipart/form-data" method="POST">
+                        <input type="hidden" name="data_type" class="data_type" value="csv_file">
+                        <input type="file" name="file" class="csv_file">
+                        <button class="button" type="submit">Insérer les données</button>
+                    </form>
+                </div>
+                <div class="form">
+                    <p>Mise à jour des données automatisée</p>
+                    <p>La mise à jour des données s'éffectue sur le mois précédent. pour mettre à jour les données sur d'autres période, merci de sélectionner celle souhaitée. Attention, la période ne peut dépasser 5 mois.</p>
+                    <form action="admin" method="POST">
+                        <input type="hidden" name="data_type" class="data_type" value="update">
+                        <input type='date' name='start_date' class='start_date' min="2014-12-15">
+                        <input type='date' name='end_date' class='end_date' min="2014-12-17">
+                        <button class="button" type="submit">Mise à jour des données</button>
+                    </form>
+                </div>
             </div>
         </div>
     {% else %}
         <div id="chart">
-            <div id="myChart" height="300">
-                <p><b>Bienvenue sur l'administration d'Electricity Forecast</b><br />
-                Merci de vous authentitifier pour accéder a l'interface d'administration.</p>
-            </div>
-        </div>
-        <div id="login_block">
-            <div id="login">
-                <form action="admin" method="POST">
-                    <input name="data_type" type="hidden" class="data_type" value="login">
-                    <input name="alias" type="text" class="alias" placeholder="Votre identifiant administrateur">
-                    <input name="password" type="password" class="pass" placeholder="Votre mot de passe">
-                    <button class="button" type="submit">Valider</button>
-                </form>
+            <div id="myChart">
+                <p><b>Bloc de gestion de la data</b></p>
             </div>
         </div>
     {% endif %}

@@ -25,44 +25,17 @@
 {% endblock %}
 
 {% block menu %}
-    <div id="title_block">
-        <div id="title">
-            {% if session["username"] %}
-                <h1>Production électrique française</h1>
-            {% else %}
-                <h1>Electricity Forecast</h1>
-            {% endif %}
-        </div>
-    </div>
-    <!-- <img src="{{url_for('static', filename='logo.jpg')}}" alt="logo de la société Denko"> -->
-    <!-- <h1>Bienvenue sur Electricity Forecast</h1> -->
-    <div id="intro_block">
-        <div id="intro">
-            <p>bloc introduction</p>
-        </div>
-    </div>
-    <div id="login_block">
-        <div id="login">
-            {% if error %}
-                <div id="error">
-                   {{ error }}
-                </div>
-            {% endif %}
-            <form action="./" method="POST">
-                <input name="alias" type="text" class="alias" placeholder="Votre pseudo">
-                <input name="password" type="password" class="pass" placeholder="Votre mot de passe">
-                <button class="button" type="submit">Valider</button>
-            </form>
-        </div>
-    </div>
-{% endblock %}
-
-{% block content %}
     {% if session["username"] %}
-        <div id="chart">
-            <canvas id="myChart" height="300"></canvas>
+        <div id="title_block">
+            <div id="title">
+                    <h1>Production électrique française</h1>
+            </div>
         </div>
-
+        <div id="intro_block">
+            <div id="intro">
+                <p>bloc introduction</p>
+            </div>
+        </div>
         <div id="login_block">
             <div id="login">
                 <form action="#" method="GET">
@@ -87,6 +60,39 @@
                 </form>
             </div>
         </div>
+    {% else %}
+        <div id="title_block">
+            <div id="title">
+                    <h1>Electricity Forecast</h1>
+            </div>
+        </div>
+        <div id="intro_block">
+            <div id="intro">
+                <p>bloc introduction</p>
+            </div>
+        </div>
+        <div id="login_block">
+            <div id="login">
+                {% if error %}
+                    <div id="error">
+                       {{ error }}
+                    </div>
+                {% endif %}
+                <form action="./" method="POST">
+                    <input name="alias" type="text" class="alias" placeholder="Votre pseudo">
+                    <input name="password" type="password" class="pass" placeholder="Votre mot de passe">
+                    <button class="button" type="submit">Valider</button>
+                </form>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+    {% if session["username"] %}
+        <div id="chart">
+            <canvas id="myChart" height="600"></canvas>
+        </div>
 
         <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
         <script>
@@ -109,7 +115,7 @@
                     ],
                     datasets: [
                         {
-                        label: 'Confirmed values',
+                        label: 'Production réelle',
                         backgroundColor: 'rgb(52, 134, 235,0.2)',
                         borderColor: 'rgb(52, 134, 235)',
                         scaleShowLabels: true,
@@ -120,7 +126,7 @@
                             ]
                         },
                         {
-                            label: 'Predictions',
+                            label: 'Prédictions',
                             backgroundColor: 'rgb(235, 92, 52, 0.2)',
                             borderColor: 'rgb(235, 92, 52)',
                             data: [
@@ -130,7 +136,7 @@
                             ]
                         },
                         {
-                            label: 'Maximum',
+                            label: 'Incertitiude max.',
                             backgroundColor: 'rgb(100, 100, 100, 0.2)',
                             borderColor: 'rgb(100, 100, 100)',
                             data: [
@@ -140,7 +146,7 @@
                             ]
                         },
                         {
-                            label: 'Minimum',
+                            label: 'Incertitude min.',
                             backgroundColor: 'rgb(100, 100, 100, 0.2)',
                             borderColor: 'rgb(100, 100, 100)',
                             data: [
