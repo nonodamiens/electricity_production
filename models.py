@@ -90,7 +90,13 @@ def csv_upload(csv_file):
             return (error, response)
         else:
             error = False
-            dataframe['Date'] = pd.to_datetime(dataframe['Date'], format='%d/%m/%Y')
+            try:
+                dataframe['Date'] = pd.to_datetime(dataframe['Date'], format='%d/%m/%Y')
+            except:
+                error = True
+                response = 'error, date not in dd/mm/aaaa format'
+
+                return (error, response)
             dataframe_by_day = dataframe.groupby('Date').sum()
             dataframe_by_day = dataframe_by_day[mandatory_columns_list]
             response = dataframe_by_day
