@@ -97,6 +97,7 @@ def csv_upload(csv_file):
                 response = 'error, date not in dd/mm/aaaa format'
 
                 return (error, response)
+            dataframe.dropna(subset=['Consommation'], inplace=True)
             dataframe_by_day = dataframe.groupby('Date').sum()
             dataframe_by_day = dataframe_by_day[mandatory_columns_list]
             response = dataframe_by_day
