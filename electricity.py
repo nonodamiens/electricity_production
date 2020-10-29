@@ -166,7 +166,7 @@ def admin():
         if session['admin']:
             # Check request form
             if request.method == "POST":
-                # user creation
+# ---------------------------------------------- user creation ------------------------------------------------------------------------------------
                 if request.form.get('data_type') == 'user_creation':
                     # check fields
                     if 'account_type' in request.form and 'alias' in request.form and 'password' in request.form:
@@ -180,7 +180,7 @@ def admin():
                     else:
                         flash('Il manque des informations')
                         return render_template('admin.html')
-                # csv db insert
+# ------------------------------------------------ csv db insert -----------------------------------------------------------------------------------
                 elif request.form.get('data_type') == 'csv_file':
                     if 'file' not in request.files:
                         flash('no files uploaded')
@@ -276,7 +276,7 @@ def admin():
                                     yield '<script>document.location.href="admin"</script>'
                                 return Response(inner())
                         return render_template('admin.html')
-                # Database update
+# ---------------------------------------------------------- Database update ------------------------------------------------------------------------
                 elif request.form.get('data_type') == 'update':
                     # Call the function with dates to setup
                     if request.form.get('start_date') != '':
@@ -287,14 +287,8 @@ def admin():
                         end_date = str(date(int(request.form.get('end_date')[:4]), int(request.form.get('end_date')[5:7]), int(request.form.get('end_date')[8:]))) + 'T23:59:59+00:00'
                     else:
                         end_date = None
-                    # start_date = start_date - timedelta(days=1)
-                    # start_date = str(start_date) + 'T00:00:00+00:00'
-                    # end_date = str(end_date) + 'T23:59:59+00:00'
-                    print(start_date, end_date)
                     response = db_update(start_date, end_date)
-                    # print(response) # check network response
                     response_loaded = json.loads(response)
-                    print(response_loaded)
                     df = pd.DataFrame() # Dataframe instantiation
                     # Source_id correspondence
                     source_id = {'BIOMASS': 8, 'OTHER_RENEWABLE': 8, 'FOSSIL_BROWN_COAL_LIGNITE': 3, 'FOSSIL_COAL_DERIVED_GAS': 3, 'FOSSIL_HARD_COAL': 3, 'FOSSIL_GAS': 2,
@@ -328,6 +322,7 @@ def admin():
                     training(data)
                     flash("db updated")
                     return render_template('admin.html')
+# --------------------------------------------------------------------------------------------------------------------------------------------------------------
                 else:
                     flash('Il y eu une erreur, merci de réessayer')
                     return render_template('admin.html')

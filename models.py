@@ -139,6 +139,7 @@ def training(data):
     df = pd.DataFrame([x for x in data], columns = ['date', 'prod'])
     df.date = pd.to_datetime(df.date)
     df = df.set_index('date')
+    df = df.sort_index()
     df = df.groupby(pd.Grouper(freq='M')).sum()
     df = df.set_index(df.index.to_period("M"))
 
