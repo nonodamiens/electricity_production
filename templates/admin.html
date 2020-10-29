@@ -22,7 +22,7 @@
         </div>
     </div>
     {% if session['admin'] %}
-        <div id="intro_block">
+        <div id="intro_block_admin">
             <div id="intro">
                 <p><b>Bienvenue {{ session['username'] }} sur l'administration d'Electricity Forecast</b><br />
                 Vous pouvez mettre à jour les données ou ajouter des utilisateurs.</p>
@@ -39,7 +39,6 @@
                     {{ error }}
                 </div>
                 <p><b>Bloc de gestion des utilisateurs</b></p>
-                <p>Ajouter un nouvel utilisateur :</p>
                 <div id="error">
                     {{ error }}
                 </div>
@@ -62,17 +61,16 @@
             </div>
         </div>
     {% else %}
-        <div id="intro_block">
+        <div id="intro_block_admin">
             <div id="intro">
-                <p><b>Bienvenue sur l'administration d'Electricity Forecast</b><br />
-                Merci de vous authentitifier pour accéder a l'interface d'administration.</p>
             </div>
         </div>
         <div id="login_block">
             <div id="login">
+                <p><b>CONNEXION</b></p>
                 <form action="admin" method="POST">
                     <input name="data_type" type="hidden" class="data_type" value="login">
-                    <input name="alias" type="text" class="alias" placeholder="Votre identifiant administrateur">
+                    <input name="alias" type="text" class="alias" placeholder="Votre identifiant">
                     <input name="password" type="password" class="pass" placeholder="Votre mot de passe">
                     <button class="button" type="submit">Valider</button>
                 </form>
@@ -108,7 +106,8 @@
     {% else %}
         <div id="chart">
             <div id="myChart">
-                <p><b>Bloc de gestion de la data</b></p>
+                <p><b>Bienvenue sur l'administration d'Electricity Forecast</b><br />
+                Merci de vous authentitifier pour accéder a l'interface d'administration.</p>
             </div>
         </div>
     {% endif %}

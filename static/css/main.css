@@ -122,11 +122,24 @@ footer a:hover {
     background-position: bottom;
 }
 
-#login_block {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
+#intro_block_admin {
+    flex: 0.9;
+    height: 300px;
+    background-color: #000;
     border: inherit;
+    box-shadow: 3px 8px 8px rgba(0, 0, 0, 0.25);
+    background-image: url('../electric_poles_mist.jpg');
+    background-repeat: no-repeat;
+    background-position: bottom;
+}
+
+#intro p {
+    color: #000;
+    width: 50%;
+    margin: 40px;
+}
+
+#login_block {
     width: 300px;
     height: 300px;
     background-color: #59dd97;
@@ -135,6 +148,15 @@ footer a:hover {
 
 #login {
     padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 260px;
+}
+
+#login b {
+    font-size: 1.5em;
+    margin-top: 10px;
 }
 
 #login input[type="text"], input[type="password"], button {
