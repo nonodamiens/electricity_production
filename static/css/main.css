@@ -1,7 +1,6 @@
 html {
     height: 100%;
     background-color: #9eeec5;
-    /* background: linear-gradient(0deg, #9eeec5 50%, transparent 50%); */
 }
 
 body {
@@ -26,10 +25,6 @@ body a {
     width: 100%;
     height: 200px;
 }
-
-/* #error {
-    color: red;
-} */
 
 /* ---------------- HEADER ---------------------------*/
 
@@ -114,8 +109,7 @@ header {
 }
 
 #login {
-    /* align-self: flex-end; */
-    /* margin: 10px auto; */
+    padding: 20px;
 }
 
 #login input[type="text"], input[type="password"], button {
@@ -123,6 +117,7 @@ header {
     width: 90%;
     text-align: center;
     margin: 5px 0px;
+    font-size: 1.2em;
 }
 
 #login input[type="radio"] {
@@ -137,7 +132,7 @@ header {
 }
 
 #login form button {
-    background-color: #59dd97;
+    background-color: #9eeec5;
 }
 
 #login button:hover {
@@ -162,8 +157,6 @@ header {
 /* ----------------------- hello page ------------------------ */
 
 #welcome_block {
-    /* width: 300px; */
-    /* height: 300px; */
     background-color: #000;
     margin-top: 10%;
     border: inherit;
@@ -201,22 +194,10 @@ header {
 
 #source_form_block {
     display: flex;
-    /* align-self: flex-end;
-    border: inherit; */
-    /* width: 300px;
-    height: 300px; */
     background-color: #59dd97;
     width: 150px;
     margin-right: 5%;
 }
-
-/* #source_form {
-    width: inherit;
-}
-
-#source_form form {
-    flex-direction: column;
-} */
 
 #buttons_block {
     display: flex;
@@ -227,20 +208,4 @@ header {
 
 #buttons_block label {
     display: inline-block;
-    /* font-size: 2em; */
-    /* width: 100px; */
-}
-
-@media (max-width:1000px) {
-
-
-    #chart {
-        order: 3;
-        flex: 1;
-    }
-
-    #content_block_center {
-        
-    }
-
 }
