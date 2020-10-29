@@ -26,6 +26,10 @@ body a {
     height: 200px;
 }
 
+button:hover, input, label {
+    cursor: pointer;
+}
+
 /* ---------------- HEADER ---------------------------*/
 
 header {
@@ -49,6 +53,24 @@ header {
     background-color: red;
     padding: 5px;
     box-shadow: 3px 8px 8px rgba(0, 0, 0, 0.25);
+}
+
+/* ----------------------- FOOTER ------------------------*/
+
+footer {
+    background-color: #c2c2c2;
+    margin-top: 30px;
+    color: #000;
+}
+
+footer a {
+    color: #000;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+footer a:hover {
+    color: #fff;
 }
 
 /* ----------------------- MENU ---------------------- */
