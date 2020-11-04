@@ -16,7 +16,7 @@
 {% endblock %}
 
 {% block menu %}
-    {% if session["username"] %}
+    {% if connexion %}
         <div id="title_block">
             <div id="title">
                     <h1>Production électrique française</h1>
@@ -55,7 +55,7 @@
 {% endblock %}
 
 {% block content %}
-    {% if session["username"] %}
+    {% if connexion %}
         <div id="chart">
             <canvas id="myChart" height="500"></canvas>
         </div>

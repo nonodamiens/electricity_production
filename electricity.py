@@ -136,25 +136,32 @@ def index():
         if db.session.query(Users).filter(Users.alias == user).count() == 1 and \
              check_password_hash(user_db.password, password):
             user_query =  db.session.query(Users).filter(Users.alias == user).first()
-            session['username'] = user_query.alias
+            session['username'] = user
             session['admin'] = False
-            # Get the data for graph
-            date_filter_start = datetime(datetime.today().year - 1, datetime.today().month, 1)
-            date_filter_end = datetime(datetime.today().year, datetime.today().month, 1)
-            print(date_filter_start.year, date_filter_start.month)
-            print(date_filter_end.year, date_filter_end.month)
-            dates = db.session.query(Electric_prod_fr.date).filter(Electric_prod_fr.date >= date_filter_start, Electric_prod_fr.date < date_filter_end).all()
-            dates_list = [d[0] for d in dates]
-            productions = db.session.query(Electric_prod_fr.production_mw).filter(Electric_prod_fr.date >= date_filter_start, Electric_prod_fr.date < date_filter_end).all()
-            productions_list = [int(p[0]) for p in productions]
 
-            labels, values, predictions, maximum, minimum = get_data(dates_list, productions_list)
-
-            return render_template('index.html', max=17000, labels=labels, values=values, predictions=predictions, maximum=maximum, minimum=minimum)
+            return redirect(url_for('index'))
         else:
             flash('Identifiants inconnus - accès refusé')
+
             return render_template('index.html')
+    elif 'username' in session:
+        user_db = db.session.query(Users).filter(Users.alias == session['username']).first()
+        user_query =  db.session.query(Users).filter(Users.alias == session['username']).first()
+        # Get the data for graph
+        date_filter_start = datetime(datetime.today().year - 1, datetime.today().month, 1)
+        date_filter_end = datetime(datetime.today().year, datetime.today().month, 1)
+        print(date_filter_start.year, date_filter_start.month)
+        print(date_filter_end.year, date_filter_end.month)
+        dates = db.session.query(Electric_prod_fr.date).filter(Electric_prod_fr.date >= date_filter_start, Electric_prod_fr.date < date_filter_end).all()
+        dates_list = [d[0] for d in dates]
+        productions = db.session.query(Electric_prod_fr.production_mw).filter(Electric_prod_fr.date >= date_filter_start, Electric_prod_fr.date < date_filter_end).all()
+        productions_list = [int(p[0]) for p in productions]
+
+        labels, values, predictions, maximum, minimum = get_data(dates_list, productions_list)
+
+        return render_template('index.html', connexion=True, max=17000, labels=labels, values=values, predictions=predictions, maximum=maximum, minimum=minimum)
     else:
+
         return render_template('index.html')
 
 @app.route('/admin')
