@@ -154,7 +154,7 @@ footer a:hover {
     height: 260px;
 }
 
-#login b {
+#login b, #content_intro b {
     font-size: 1.5em;
     margin-top: 10px;
 }
@@ -233,10 +233,20 @@ footer a:hover {
     width: 100%;
 }
 
-#chart {
+#chart, #content_intro_block {
     background-color: #000;
     flex: 1;
     box-shadow: 3px 8px 8px rgba(0, 0, 0, 0.25);
+}
+
+#content_intro_block {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#logo {
+    border-radius: 50px;
 }
 
 #source_form_block {

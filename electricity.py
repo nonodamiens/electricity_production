@@ -176,19 +176,20 @@ def admin():
                         new_user = Users(alias=user, password=password, administrator=admin)
                         db.session.add(new_user)
                         db.session.commit()
-                        return render_template('admin.html', response = 'New user inserted')
+                        flash("Nouvel utilisateur enregistré")
+                        return render_template('admin.html')
                     else:
                         flash('Il manque des informations')
                         return render_template('admin.html')
 # ------------------------------------------------ csv db insert -----------------------------------------------------------------------------------
                 elif request.form.get('data_type') == 'csv_file':
                     if 'file' not in request.files:
-                        flash('no files uploaded')
+                        flash('Aucun fichier trouvé')
                         return render_template('admin.html')
                     else:
                         file = request.files['file']
                         if file.filename =='':
-                            flash('no selected file')
+                            flash('Aucun fichier sélectionné')
                             return render_template('admin.html')
                         elif file and '.' in file.filename and file.filename.rsplit('.', 1)[1].lower() == 'csv':
                             print('csv db insert steps')
@@ -320,11 +321,11 @@ def admin():
                     # updating model
                     data = db.session.query(Electric_prod_fr.date, Electric_prod_fr.production_mw).all()
                     training(data)
-                    flash("db updated")
+                    flash("La base de données a été mise à jour")
+                    
                     return render_template('admin.html')
-# --------------------------------------------------------------------------------------------------------------------------------------------------------------
+# -------------------------------------------------------------------------------------------------------------------------------------------------------------------
                 else:
-                    flash('Il y eu une erreur, merci de réessayer')
                     return render_template('admin.html')
             else:
                 return render_template('admin.html')

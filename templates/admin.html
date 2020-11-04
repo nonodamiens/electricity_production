@@ -80,8 +80,8 @@
 {% endblock %}
 {% block content %}
     {% if session['admin'] %}
-        <div id="chart">
-            <div id="myChart">
+        <div id="content_intro_block">
+            <div id="content_intro">
                 <p><b>Bloc de gestion de la data</b></p>
                 <div class="form">
                     <p>Insérer un fichier csv (séparateur ";")</p>
@@ -104,10 +104,14 @@
             </div>
         </div>
     {% else %}
-        <div id="chart">
-            <div id="myChart">
-                <p><b>Bienvenue sur l'administration d'Electricity Forecast</b><br />
-                Merci de vous authentitifier pour accéder a l'interface d'administration.</p>
+        <div id="content_intro_block">
+            <div id="content_intro" height="300">
+                <p><b>Bienvenue sur la page d'administration d'Electricity Forecast</b></p>
+                <p>Cette page est reservé aux administrateurs du site Electricity Forecast</p>
+                <div id="img_logo">
+                    <img id="logo" src="{{ url_for('static', filename='logo.jpg') }}" alt="logo de la société Denko">
+                </div>
+                <p>Merci de vous authentitifier pour accéder à l'interface d'administration</p>
             </div>
         </div>
     {% endif %}
