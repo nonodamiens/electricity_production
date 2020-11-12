@@ -209,6 +209,7 @@ def admin():
                                 def inner():
                                     nb_updates = 0
                                     nb_insert = 0
+                                    yield 'Data updating. Please wait...<br/>\n'
                                     for label, row in response.iterrows():
                                         if db.session.query(Electric_prod_fr_raw).filter(Electric_prod_fr_raw.date == label).count() >= 1:
                                             db.session.query(Electric_prod_fr_raw).filter(Electric_prod_fr_raw.date == label).update(
@@ -247,7 +248,7 @@ def admin():
                                                 db.session.add(Electric_prod_fr(date = label, sourcetype_id = 7, production_mw = row['Solaire']))
                                                 db.session.add(Electric_prod_fr(date = label, sourcetype_id = 8, production_mw = row['Bioénergies']))
                                             db.session.commit()
-                                            yield 'The database row ' + str(label) + ' has been updated<br/>\n'
+                                            # yield 'The database row ' + str(label) + ' has been updated<br/>\n'
                                             nb_updates += 1
                                         else:
                                             new_data = Electric_prod_fr_raw(
@@ -276,7 +277,7 @@ def admin():
                                             db.session.add(Electric_prod_fr(date = label, sourcetype_id = 7, production_mw = row['Solaire']))
                                             db.session.add(Electric_prod_fr(date = label, sourcetype_id = 8, production_mw = row['Bioénergies']))
                                             db.session.commit()
-                                            yield 'The database row ' + str(label) + ' has been inserted<br/>\n'
+                                            # yield 'The database row ' + str(label) + ' has been inserted<br/>\n'
                                             nb_insert += 1
                                     yield str(nb_updates) + 'rows of database have been updated<br/>\n'
                                     yield str(nb_insert) + 'rows of database have been inserted<br/>\n'

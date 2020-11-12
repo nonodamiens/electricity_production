@@ -90,6 +90,7 @@ def csv_upload(csv_file):
             return (error, response)
         else:
             error = False
+            dataframe = dataframe[dataframe.Heures.str.contains(r".*30$")]
             try:
                 dataframe['Date'] = pd.to_datetime(dataframe['Date'], format='%d/%m/%Y')
             except:
