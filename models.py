@@ -103,7 +103,7 @@ def csv_upload(csv_file):
             dataframe_by_day = dataframe_by_day[mandatory_columns_list]
             response = dataframe_by_day
             
-            return (error, response)        
+            return (error, response)
 
 # Testing line decomment to execute
 # print(csv_upload('./csv_files/test.csv'))

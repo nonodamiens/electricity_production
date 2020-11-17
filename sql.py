@@ -23,14 +23,15 @@ with pyodbc.connect('DRIVER='+driver+';SERVER='+server+';PORT=1433;DATABASE='+da
 # ------------- CREATE TABLE (decomment to use) -------------------------------
 		cursor.execute("""
 			CREATE TABLE Users_info(
-			user_id INT NOT NULL,
-			name VARCHAR(25),
-			surname VARCHAR(25),
-			address VARCHAR(50),
-			postal INT,
-			city VARCHAR(25),
-			phone INT,
-			birth DATE,
-			company VARCHAR(25)
-			)""")
+				user_id INT NOT NULL,
+				name VARCHAR(25),
+				surname VARCHAR(25),
+				address VARCHAR(50),
+				postal INT,
+				city VARCHAR(25),
+				phone INT,
+				birth DATE,
+				company VARCHAR(25)
+				)
+			""")
 		conn.commit()

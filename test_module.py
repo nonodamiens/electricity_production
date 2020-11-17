@@ -1,5 +1,11 @@
-def essai(nom):
-	return "hello " + nom
+from electricity import app
 
-def test_essai():
-	assert essai("Bob") == "hello Bob"
+# index page connection test
+def test_index():
+	response = app.test_client().get("/")
+	assert response.status_code == 200
+
+# admin page connection test
+def test_admin():
+	response = app.test_client().get("/admin")
+	assert response.status_code == 200
