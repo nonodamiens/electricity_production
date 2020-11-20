@@ -14,8 +14,10 @@ import pandas as pd
 import numpy as np
 from statsmodels.tsa.api import ExponentialSmoothing
 import statsmodels.api as sm
+import flask_monitoringdashboard as dashboard
 
 app = Flask(__name__)
+dashboard.bind(app)
 
 # Connection informations for SQL database
 # --- On Azure ---
