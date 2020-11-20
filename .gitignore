@@ -2,6 +2,9 @@
 # Created by https://www.toptal.com/developers/gitignore/api/flask,git,jupyternotebooks,python
 # Edit at https://www.toptal.com/developers/gitignore?templates=flask,git,jupyternotebooks,python
 
+### monitoring database
+flask_monitoringdashboard.db
+
 ### venv ###
 # Virtualenv
 # http://iamzed.com/2009/05/07/a-primer-on-virtualenv/
